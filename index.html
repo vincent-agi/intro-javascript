@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu du Nombre Mystère</title>
+    <!-- Importation d'une police moderne (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Liaison de la feuille de style CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Devine le Nombre</h1>
+        <p class="instructions">Trouvez le nombre mystère compris entre <strong>0 et 100</strong>.</p>
+
+        <!-- Zone de saisie -->
+        <div id="game-controls">
+            <div class="input-group">
+                <input type="number" id="user-input" min="0" max="100" placeholder="Votre nombre...">
+                <button id="btn-guess">Valider</button>
+            </div>
+        </div>
+
+        <!-- Zone de retour (feedback) -->
+        <div id="message">Faites une première proposition !</div>
+
+        <!-- Statistiques (Tentatives) -->
+        <div class="stats">
+            <span>Tentatives : <strong id="attempts-count">0</strong></span>
+            <span>Plage : 0 - 100</span>
+        </div>
+
+        <!-- Bouton rejouer (masqué au début) -->
+        <button id="btn-restart" class="btn-restart hidden">Rejouer une partie</button>
+    </div>
+
+    <!-- Liaison du fichier de script JavaScript (placé en bas pour charger le DOM d'abord) -->
+    <script src="script.js"></script>
+</body>
+</html>
