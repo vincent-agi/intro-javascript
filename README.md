@@ -22,12 +22,12 @@ Ce projet a été conçu pour vous apprendre les bases fondamentales du **JavaSc
 Le jeu fonctionne selon les principes suivants :
 
 1. Le programme choisit secrètement un nombre entier compris entre **0 et 100** (inclus).
-2. Le programme invite le joueur à deviner ce nombre mystère via un champ de saisie [saisir un nombre](./screenshots/saisir_nombre.png).
+2. Le programme invite le joueur à deviner ce nombre mystère via un champ de saisie [saisir un nombre](./saisir_nombre.png).
 3. Le joueur entre sa proposition (un nombre entier entre 0 et 100).
 4. Le programme analyse la proposition :
-   - Si le nombre entré est **plus grand** que le nombre mystère --> Le programme indique que le nombre mystère est **plus petit** (c'est moins) [C'est moins](./screenshots/moins.png).
-   - Si le nombre entré est **plus petit** que le nombre mystère -->Le programme indique que le nombre mystère est **plus grand** (c'est plus) [C'est plus](./screenshots/plus.png).
-   - Si les deux nombres sont **identiques** --> Le programme annonce que le joueur a **gagné la partie** ! [victoire](./screenshots/victoir.png)
+   - Si le nombre entré est **plus grand** que le nombre mystère --> Le programme indique que le nombre mystère est **plus petit** (c'est moins) [C'est moins](./moins.png).
+   - Si le nombre entré est **plus petit** que le nombre mystère -->Le programme indique que le nombre mystère est **plus grand** (c'est plus) [C'est plus](./plus.png).
+   - Si les deux nombres sont **identiques** --> Le programme annonce que le joueur a **gagné la partie** ! [victoire](./victoir.png)
 5. Tant que la solution n'est pas trouvée, la partie continue et le compteur de tentatives augmente.
 
 ---
