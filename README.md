@@ -40,4 +40,4 @@ Pour garder un code propre et structuré, votre projet sera divisé en trois fic
 * `style.css` : Le design, les couleurs et la mise en page (style moderne / glassmorphisme). Le fichier est disponible ici : [style.css](./style.css).
 * `script.js` : Le cerveau du jeu (la logique, les conditions et les interactions). Le fichier **vide** est disponible ici : [script.js](./script.js) Mais vous pouvez utiliser [https://jsfiddle.net/](https://jsfiddle.net/) pour faire simple.
 
-Préparez votre éditeur de code et vos fichiers, et commencez dès à présent avec la première étape !
+Préparez votre éditeur de code et vos fichiers, et commencez dès à présent avec la [première étape](./etape_1.md) !
