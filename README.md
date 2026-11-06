@@ -41,3 +41,12 @@ Pour garder un code propre et structuré, votre projet sera divisé en trois fic
 * `script.js` : Le cerveau du jeu (la logique, les conditions et les interactions). Le fichier **vide** est disponible ici : [script.js](./script.js) Mais vous pouvez utiliser [https://jsfiddle.net/](https://jsfiddle.net/) pour faire simple.
 
 Préparez votre éditeur de code et vos fichiers, et commencez dès à présent avec la [première étape](./etape_1.md) !
+
+---
+
+## 📺 Autre projet : « Devine les Vues Stream »
+
+Un deuxième mini-jeu pour s'entraîner : deviner le nombre de vues d'un live (entre 0 et 1000). On y revoit les variables, les conditions, les fonctions, les tableaux et les boucles `for`, avec un historique des essais.
+
+* [Tutoriel pas à pas](./tiktok/tutoriel/01-introduction.md) : introduction, variables et saisie, conditions, tableau et boucle, code final.
+* [Le jeu](./tiktok/index.html) et son script [app.js](./tiktok/app.js).
