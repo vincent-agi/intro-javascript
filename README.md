@@ -50,3 +50,12 @@ Un deuxième mini-jeu pour s'entraîner : deviner le nombre de vues d'un live (e
 
 * [Tutoriel pas à pas](./tiktok/tutoriel/01-introduction.md) : introduction, variables et saisie, conditions, tableau et boucle, code final.
 * [Le jeu](./tiktok/index.html) et son script [app.js](./tiktok/app.js).
+
+---
+
+## ⚔️ Autre projet : « Mini RPG »
+
+Un combat au tour par tour contre un monstre : barres de vie, attaque, soin et riposte automatique. On y travaille les variables, les fonctions, les conditions, les tableaux et les boucles `for` (journal de combat).
+
+* [Tutoriel pas à pas](./mini-rpg/tutoriel/01-introduction.md) : introduction, variables et état, fonctions et actions, conditions et fin, tableau et boucle.
+* [Le jeu](./mini-rpg/index.html), son style [style.css](./mini-rpg/style.css) et son script [app.js](./mini-rpg/app.js).
