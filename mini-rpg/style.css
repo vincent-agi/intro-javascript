@@ -1,0 +1,42 @@
+body {
+    font-family: sans-serif;
+    max-width: 420px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+/* Le cadre gris de la barre de vie */
+.barre {
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* La partie verte : sa largeur change selon les PV */
+.vie {
+    height: 100%;
+    width: 100%;
+    background: #4caf50;
+    transition: width 0.3s;
+}
+
+.actions {
+    margin: 20px 0;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+#journal {
+    text-align: left;
+}

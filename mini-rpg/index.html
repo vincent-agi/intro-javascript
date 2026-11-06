@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Mini RPG ⚔️</h1>
+
+    <!-- Le héros -->
+    <section>
+        <h2>🧙 Héros : <span id="pv-joueur">100</span> PV</h2>
+        <div class="barre"><div id="barre-joueur" class="vie"></div></div>
+    </section>
+
+    <!-- Le monstre -->
+    <section>
+        <h2>👹 Monstre : <span id="pv-monstre">80</span> PV</h2>
+        <div class="barre"><div id="barre-monstre" class="vie"></div></div>
+    </section>
+
+    <!-- Les boutons d'action -->
+    <div class="actions">
+        <button id="btn-attaque">⚔️ Attaquer</button>
+        <button id="btn-soin">💚 Se soigner</button>
+    </div>
+
+    <!-- Message principal et journal de combat -->
+    <p id="message">Le combat commence !</p>
+    <h3>Journal de combat</h3>
+    <ul id="journal"></ul>
+
+    <script src="app.js"></script>
+</body>
+</html>
