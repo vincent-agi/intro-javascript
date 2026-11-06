@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Devine les Vues Stream</title>
+</head>
+<body>
+    <h1>Devine les Vues Stream 🎮</h1>
+    <p>Combien de personnes ont regardé le live ? (entre 0 et 1000)</p>
+
+    <!-- Le champ où le joueur tape son nombre -->
+    <input type="number" id="saisie" min="0" max="1000">
+    <!-- Le bouton pour envoyer sa réponse -->
+    <button id="valider">Valider</button>
+
+    <!-- Ici, le jeu écrira « Plus », « Moins » ou « Bravo » -->
+    <p id="message"></p>
+
+    <!-- Ici, le jeu écrira la liste de tes essais -->
+    <h2>Historique</h2>
+    <ul id="historique"></ul>
+
+    <!-- On charge le JavaScript en dernier -->
+    <script src="app.js"></script>
+</body>
+</html>
