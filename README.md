@@ -59,3 +59,12 @@ Un combat au tour par tour contre un monstre : barres de vie, attaque, soin et r
 
 * [Tutoriel pas à pas](./mini-rpg/tutoriel/01-introduction.md) : introduction, variables et état, fonctions et actions, conditions et fin, tableau et boucle.
 * [Le jeu](./mini-rpg/index.html), son style [style.css](./mini-rpg/style.css) et son script [app.js](./mini-rpg/app.js).
+
+---
+
+## 🧙 Autre projet : « Mini RPG en POO »
+
+Le même combat de RPG, mais avec la **Programmation Orientée Objet** : classes, constructeur, méthodes, héritage (`extends`, `super`), avec un Guerrier et un Mage. L'analogie du moule et des gâteaux sert de fil conducteur.
+
+* [Tutoriel pas à pas](./mini-rpg-poo/01-introduction.md) : introduction, première classe, méthodes et interactions, héritage, code final.
+* [Le script](./mini-rpg-poo/app.js), à lancer avec `node app.js`.
