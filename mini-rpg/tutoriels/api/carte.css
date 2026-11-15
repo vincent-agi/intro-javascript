@@ -1,0 +1,30 @@
+/* La carte : une grille de tuiles, le joueur flotte par-dessus */
+#carte {
+    position: relative;
+    display: grid;
+    width: max-content;
+    margin: 20px auto;
+}
+
+/* display:grid écraserait l'attribut hidden : on le rétablit */
+#carte[hidden] { display: none; }
+
+.tile-chemin { background: #e8d9a8; }
+.tile-herbe  { background: #6cbf5a; }
+.tile-arbre  { background: #2e6b34; }
+.tile-eau    { background: #4aa3df; }
+
+.joueur {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.12s, top 0.12s;
+}
+
+/* Le monstre venu de l'API */
+#sprite-monstre {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+}
