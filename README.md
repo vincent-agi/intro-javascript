@@ -57,14 +57,6 @@ Un deuxième mini-jeu pour s'entraîner : deviner le nombre de vues d'un live (e
 
 Un combat au tour par tour contre un monstre : barres de vie, attaque, soin et riposte automatique. On y travaille les variables, les fonctions, les conditions, les tableaux et les boucles `for` (journal de combat).
 
-* [Tutoriel pas à pas](./mini-rpg/tutoriel/01-introduction.md) : introduction, variables et état, fonctions et actions, conditions et fin, tableau et boucle.
+* [Tutoriel pas à pas](./mini-rpg/tutoriels/01-introduction.md) : introduction, variables et état, fonctions et actions, conditions et fin, tableau et boucle.
 * [Le jeu](./mini-rpg/index.html), son style [style.css](./mini-rpg/style.css) et son script [app.js](./mini-rpg/app.js).
-
----
-
-## 🧙 Autre projet : « Mini RPG en POO »
-
-Le même combat de RPG, mais avec la **Programmation Orientée Objet** : classes, constructeur, méthodes, héritage (`extends`, `super`), avec un Guerrier et un Mage. L'analogie du moule et des gâteaux sert de fil conducteur.
-
-* [Tutoriel pas à pas](./mini-rpg-poo/01-introduction.md) : introduction, première classe, méthodes et interactions, héritage, code final.
-* [Le script](./mini-rpg-poo/app.js), à lancer avec `node app.js`.
+* [Version POO du Mini RPG](./mini-rpg/tutoriels/poo/01-introduction.md) : le même jeu transformé pas à pas en classes (`Personnage`, `Journal`, `Heros`/`Monstre` avec héritage, `Combat`). [Code final](./mini-rpg/tutoriels/poo/app.js) jouable via [index.html](./mini-rpg/tutoriels/poo/index.html).
