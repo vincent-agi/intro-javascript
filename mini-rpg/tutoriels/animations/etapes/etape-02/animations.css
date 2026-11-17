@@ -1,0 +1,22 @@
+/* Toutes les animations du jeu */
+
+/* ===== Le monde qui respire (étape 02) ===== */
+
+/* L'eau scintille : sa luminosité monte et descend, sans fin */
+.tile-eau {
+    animation: vagues 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes vagues {
+    to { filter: brightness(1.25); }
+}
+
+/* Le héros respire : il monte et descend de 3 pixels, sans fin */
+.sprite-joueur {
+    display: inline-block; /* un <span> doit être "inline-block" pour bouger */
+    animation: respire 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes respire {
+    to { transform: translateY(-3px); }
+}
