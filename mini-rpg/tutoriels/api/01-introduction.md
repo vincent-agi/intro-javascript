@@ -1,86 +1,78 @@
-# 01 – Introduction : charger des données avec `fetch`
+# 01 – Introduction : un vrai petit RPG
 
-Ton Mini RPG en POO fonctionne, mais le monstre est **écrit à la main** dans le code (80 PV, toujours le même). Et si ses données venaient **d'Internet** ?
+Ton Mini RPG en POO fonctionne, mais tout est **écrit à la main** : toujours le même monstre (80 PV), et pas de monde à explorer.
 
-## Une API, c'est quoi ?
+À la fin de ce tutoriel, ton jeu ressemblera aux vieux jeux Pokémon :
 
-Une **API** est un service web qui répond à une adresse (une URL) en renvoyant des **données**. Ici, [PokeAPI](https://pokeapi.co) renvoie des fiches de Pokémon :
+- 🗺️ une **carte** faite de tuiles (chemins, herbe, arbres, eau) ;
+- 🧙 un **héros** que tu déplaces avec les flèches du clavier, qui ne traverse ni les arbres ni l'eau ;
+- 🌿 dans les **hautes herbes**, un monstre **caché** peut surgir : l'écran clignote et le combat commence ;
+- 👹 le monstre est un **vrai Pokémon**, avec son nom, son image et ses stats, téléchargé sur Internet ;
+- ⚔️ après le combat, tu **retournes sur la carte** (ou au point de départ si tu as perdu).
 
-- `https://pokeapi.co/api/v2/pokemon/gengar` : la fiche de Gengar ;
-- `https://pokeapi.co/api/v2/pokemon/94` : la même, par son numéro (`id`).
+## Client et serveur, en deux phrases
 
-Les données arrivent en **JSON**, un texte qui ressemble à un objet JavaScript :
+Ton jeu tourne dans le navigateur : c'est le **client**. Quand il a besoin d'un monstre, il **demande** à un **serveur** sur Internet, qui **répond** avec des données. Ce serveur, c'est [PokeAPI](https://pokeapi.co) : une **API**, c'est-à-dire une adresse web qui renvoie des données au lieu d'une page.
+
+Essaie tout de suite : ouvre cette adresse dans un nouvel onglet.
+
+👉 <https://pokeapi.co/api/v2/pokemon/gengar>
+
+Tu vois un long texte : c'est la fiche de Gengar, au format **JSON**. Ça ressemble à un objet JavaScript :
 
 ```json
 { "id": 94, "name": "gengar", "stats": [ { "base_stat": 60, "stat": { "name": "hp" } } ] }
 ```
 
-## `fetch`, les promesses et `async` / `await`
+Change la fin de l'adresse par `pikachu`, puis par `25` : même principe, autre Pokémon. Ton jeu va faire exactement ça, mais en JavaScript.
 
-Aller chercher une donnée sur Internet **prend du temps**. JavaScript ne bloque pas la page pendant l'attente : `fetch` renvoie une **promesse** (*Promise*), c'est-à-dire « la réponse arrivera plus tard ».
+## Le plan
 
-Avec `async` / `await`, on écrit ce code d'attente comme du code normal :
+Chaque étape ajoute **une chose visible** au jeu. Tu testes à chaque fois avant de passer à la suite.
 
-```javascript
-async function chargerGengar() {                      // "async" : la fonction attend des choses
-    const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/gengar");
-    const donnees = await reponse.json();             // transforme le JSON en objet
-    console.log(donnees.name);                        // "gengar"
-}
-chargerGengar();
-```
-
-- `await` **met la fonction en pause** jusqu'à l'arrivée du résultat ;
-- `await` ne s'utilise que dans une fonction `async` ;
-- une fonction `async` renvoie elle-même une promesse : pour récupérer son résultat, on l'`await` aussi.
-
-### Essaie dans la console
-
-Ouvre ton navigateur, `F12`, onglet **Console**, et colle :
-
-```javascript
-const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/gengar");
-const gengar = await reponse.json();
-gengar.stats;
-```
-
-(La console accepte `await` directement.) Explore l'objet : `gengar.sprites.front_default` est l'image du Pokémon.
-
-## Le plan : le même jeu, de plus en plus riche
-
-| Étape | Ce que tu ajoutes | Notion |
+| Étape | Ce que tu ajoutes | Ce que tu pratiques |
 | --- | --- | --- |
-| 02 | Gengar vient de PokeAPI | `fetch`, `async` / `await`, `static` |
-| 03 | Un monstre au hasard, et un plan B si l'API échoue | `{id}` dynamique, `try` / `catch` |
-| 04 | Une carte chargée depuis un fichier JSON, découpée en tuiles | `fetch` local, `split`, `map` |
-| 05 | Un héros qui se déplace au clavier, avec des collisions | événements clavier, bordures, obstacles |
-| 06 | Marcher dans l'herbe déclenche un combat | tout assembler |
+| 02 | Gengar, téléchargé depuis PokeAPI | `fetch`, `async` / `await` |
+| 03 | Un monstre au hasard, et un plan B si Internet tombe | URL construite, `try` / `catch` |
+| 04 | Une carte chargée depuis un fichier | fichier JSON, `split`, `map`, grille CSS |
+| 05 | Le héros se déplace, sans traverser les obstacles | clavier, coordonnées, collisions |
+| 06 | Marcher dans l'herbe déclenche un combat | fonction de rappel, hasard, écrans |
+| 07 | Retour à la carte après le combat, code final | assembler le tout |
+
+> 🆘 **Bloqué à une étape ?** Le dossier [`etapes/`](./etapes/) contient le code **complet et fonctionnel** de chaque étape (`etape-02`, `etape-03`…). Compare-le avec le tien. Le jeu terminé (étape 07) est dans ce dossier-ci : [`app.js`](./app.js), [`index.html`](./index.html), [`carte.css`](./carte.css), [`map.json`](./map.json).
 
 ## Point de départ
 
-Copie le dossier `poo` (la fin du tutoriel précédent) dans un nouveau dossier de travail, avec le CSS :
+Copie le code de la fin du tutoriel POO dans un nouveau dossier :
 
 ```
-mon-rpg-api/
+mon-rpg/
 ├── index.html   (celui du dossier poo)
-├── style.css    (celui de mini-rpg ; adapte le lien dans index.html : href="style.css")
+├── style.css    (celui du dossier mini-rpg)
 └── app.js       (celui du dossier poo)
 ```
 
-## Un petit serveur local
+Dans `index.html`, corrige le lien du style : `<link rel="stylesheet" href="style.css">`.
 
-À partir de l'étape 04, tu chargeras un **fichier de ton projet** avec `fetch`. Les navigateurs **bloquent** cela quand la page est ouverte en double-cliquant (`file://`). Il faut la servir en HTTP. Au choix, dans le dossier du projet :
+## Lancer un petit serveur local
+
+À l'étape 04, ton jeu chargera un **fichier de ton projet** (la carte). Les navigateurs l'interdisent quand la page est ouverte par un double-clic (adresse en `file://`). Il faut ouvrir la page **via un serveur**. Prends l'habitude dès maintenant. Au choix :
+
+- **VS Code** : installe l'extension **Live Server**, clic droit sur `index.html` → *Open with Live Server* ;
+- **Terminal**, dans le dossier du projet :
 
 ```bash
-npx serve          # puis ouvre l'adresse affichée (ex. http://localhost:3000)
+npx serve                 # puis ouvre l'adresse affichée (ex. http://localhost:3000)
 # ou
-python3 -m http.server   # puis ouvre http://localhost:8000
+python3 -m http.server    # puis ouvre http://localhost:8000
 ```
 
-> Autre option : l'extension **Live Server** de VS Code. Prends l'habitude de lancer le serveur dès maintenant.
+## Vérifier
+
+Ouvre ton jeu via le serveur : le combat de la version POO fonctionne comme avant. L'adresse commence par `http://localhost`, et non par `file://`.
 
 ## 🏆 Défi
 
-Dans la console, récupère le Pokémon numéro `25` et affiche son nom et son `hp` : `donnees.stats[0].base_stat`. Qui est-ce ?
+Dans le navigateur, ouvre la fiche du Pokémon numéro `25`. Cherche son nom (`name`) et sa valeur de `hp` dans `stats`. Astuce : Firefox affiche le JSON joliment rangé, et `Ctrl + F` aide à chercher.
 
 ➡️ Suite : [02 – Gengar depuis l'API](./02-monstre-depuis-api.md)

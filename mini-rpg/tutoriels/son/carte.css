@@ -22,6 +22,15 @@
     transition: left 0.12s, top 0.12s;
 }
 
+/* Rencontre : la carte clignote, comme dans les vieux jeux */
+.rencontre {
+    animation: clignote 0.2s 4;
+}
+
+@keyframes clignote {
+    50% { filter: brightness(3); }
+}
+
 /* Le monstre venu de l'API */
 #sprite-monstre {
     width: 96px;

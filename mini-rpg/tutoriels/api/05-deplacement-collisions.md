@@ -1,5 +1,7 @@
 # 05 – Déplacer le joueur et gérer les collisions
 
+🎯 **À la fin de cette étape** : le héros 🧙 se promène sur la carte avec les flèches du clavier, et se cogne contre les arbres, l'eau et les bords.
+
 ## Le concept
 
 Pour déplacer le joueur :
@@ -136,6 +138,8 @@ Déplace le héros avec les **flèches**. Teste :
 - contourner le **lac** et les arbres au centre : impossible de les traverser ;
 - traverser l'**herbe** : il avance normalement.
 
+> 🆘 Bloqué ? Compare avec le [code complet de l'étape 05](./etapes/etape-05/).
+
 ### Ce qu'il faut retenir
 
 - Un déplacement = **calculer**, **vérifier**, puis **appliquer**.
@@ -147,4 +151,4 @@ Déplace le héros avec les **flèches**. Teste :
 
 Ajoute les touches `z`, `q`, `s`, `d` (clavier français) dans le dictionnaire `directions`. Ensuite, empêche le héros de traverser les cases d'herbe : que modifies-tu, dans le code ou dans `map.json` ? (Réponse : seulement `map.json`, en ajoutant `"herbe"` à `obstacles`. Remets-la ensuite !)
 
-➡️ Suite : [06 – Rencontres et code final](./06-rencontres-code-final.md)
+➡️ Suite : [06 – Rencontres dans les hautes herbes](./06-rencontres.md)

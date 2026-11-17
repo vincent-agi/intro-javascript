@@ -1,0 +1,6 @@
+/* Le monstre venu de l'API */
+#sprite-monstre {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+}

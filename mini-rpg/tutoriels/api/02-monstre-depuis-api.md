@@ -1,13 +1,35 @@
 # 02 – Gengar depuis l'API
 
-## Le concept
+🎯 **À la fin de cette étape** : ton héros affronte Gengar, avec son vrai nom, sa vraie image et ses vraies stats, téléchargés sur Internet.
 
-On va fabriquer un `Monstre` **à partir de la fiche JSON** de PokeAPI. Pour cela :
+## Essaie d'abord dans la console
 
-- une fonction `async` réutilisable, `chargerJson`, qui gère le `fetch` ;
-- une méthode `static` sur `Monstre` qui renvoie un nouveau monstre.
+Ouvre ton jeu, appuie sur `F12`, onglet **Console**, et tape ces lignes **une par une** :
 
-Une méthode **`static`** appartient à la **classe**, pas à un objet : on l'appelle avec `Monstre.depuisApi(...)`, **sans** `new`. C'est l'idéal pour une « usine à objets » (*factory*).
+```javascript
+const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/gengar");
+const gengar = await reponse.json();
+gengar.name;
+gengar.stats[0].base_stat;
+gengar.sprites.front_default;
+```
+
+Tu viens de faire une requête client → serveur :
+
+- `fetch(adresse)` **envoie la demande** au serveur ;
+- `await` veut dire « **attends la réponse** » : Internet prend du temps, quelques millisecondes ou quelques secondes ;
+- `reponse.json()` **transforme le texte JSON** en objet JavaScript (il faut l'attendre aussi).
+
+La dernière ligne te donne l'adresse d'une image : colle-la dans un onglet, c'est Gengar !
+
+> Dans ton fichier `app.js`, `await` ne marche que **dans une fonction marquée `async`**. C'est la seule règle à retenir.
+
+## Le plan
+
+On va fabriquer un `Monstre` **à partir de la fiche** de PokeAPI :
+
+- une fonction `chargerJson` qui télécharge une adresse (elle resservira) ;
+- une méthode `static` dans `Monstre`, qui renvoie un monstre tout prêt. Une méthode **`static`** s'appelle sur la **classe** : `Monstre.depuisApi("gengar")`, sans `new`. C'est une « usine à monstres ».
 
 ## Le code
 
@@ -125,10 +147,13 @@ Les trois lignes clés : on **attend** (`await`) le monstre, puis on lance le co
 
 ## Vérifier
 
-Recharge la page : Gengar apparaît avec son image, ses `60` PV, et se bat comme les autres. Ouvre l'onglet **Réseau** (`F12` → *Network*) : tu vois la requête vers `pokeapi.co`.
+Recharge la page : Gengar apparaît avec son image et ses `60` PV, et se bat comme l'ancien monstre. Ouvre l'onglet **Réseau** (`F12` → *Network*) et recharge : tu vois la requête vers `pokeapi.co` et sa réponse. C'est l'échange client → serveur.
+
+> 🆘 Ça ne marche pas ? Regarde d'abord la **console** (`F12`) : le message d'erreur indique souvent la ligne fautive. Sinon, compare avec le [code complet de l'étape 02](./etapes/etape-02/app.js) et son [index.html](./etapes/etape-02/index.html).
 
 ### Ce qu'il faut retenir
 
+- Le client **demande** (`fetch`), le serveur **répond** (du JSON).
 - `await fetch(url)` puis `await reponse.json()` : deux attentes.
 - Les données d'une API sont **adaptées** à ton jeu (ici : stats → PV et dégâts).
 - `static` : une méthode de classe, appelée sans créer d'objet.

@@ -1,5 +1,7 @@
 # 04 – Charger et afficher la carte
 
+🎯 **À la fin de cette étape** : une carte de 12 × 9 tuiles (chemins, herbe, arbres, lacs) s'affiche au-dessus du combat.
+
 ## Le concept
 
 Une **carte de jeu** est une grille de **tuiles** (*tiles*) : de petits carrés (herbe, arbre, eau…). Au lieu de dessiner la carte en HTML à la main, on la **décrit dans un fichier JSON**, que le jeu charge puis **découpe en tuiles**.
@@ -139,6 +141,8 @@ demarrerJeu();
 ## Vérifier
 
 Via ton serveur local (voir l'étape 01), recharge la page : la carte de `12 × 9` apparaît au-dessus du combat, avec chemins, herbe, arbres et lacs. Si la page reste vide, ouvre la console : une erreur `Failed to fetch` indique que tu as ouvert le fichier directement au lieu de passer par le serveur.
+
+> 🆘 Bloqué ? Compare avec le [code complet de l'étape 04](./etapes/etape-04/) (`app.js`, `index.html`, `carte.css`, `map.json`).
 
 ### Ce qu'il faut retenir
 
