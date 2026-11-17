@@ -11,9 +11,12 @@ Le jeu doit marcher avec **les deux** héros, sans `if (c'est un mage)` partout.
 | `emoji` | `"🤺"` | `"🧙"` |
 | `manaMax`, `mana` | `0` | `50` |
 | `sorts` | `[]` (aucun) | 3 sorts |
+| `peutLancer(sort)`, `lancerSort(sort, cible)` | les mêmes que le Mage (déplacées dans `Heros`) | héritées de `Heros` |
 | `regenererMana(montant)` | ne fait **rien** | remonte le mana |
 
 Résultat : `Combat` crée « un bouton par sort ». Pour le Chevalier, la liste est vide, donc **aucun bouton**, sans écrire une ligne de plus. Et `regenererMana(5)` ne plante pas : la version du Chevalier ne fait simplement rien.
+
+> ⚠️ **Un piège à éviter.** `Combat` appelle `this.heros.peutLancer(...)` et `this.heros.lancerSort(...)`. Si ces méthodes restent dans le `Mage`, le Chevalier ne les a pas. Le jeu marcherait quand même (il n'a aucun bouton de sort, donc personne ne les appelle)… jusqu'au jour où quelqu'un donnera un sort au Chevalier, et là : `peutLancer is not a function`. La règle : **tout ce que `Combat` demande à « un héros », la classe `Heros` doit savoir le faire.** On les déplace donc dans `Heros` : avec `0` mana, `peutLancer` répond toujours `false` pour le Chevalier.
 
 ## Le code
 
@@ -26,7 +29,24 @@ this.mana = 0;
 this.sorts = [];   // ...et ne connaît aucun sort
 ```
 
-Et ajoute à `Heros` cette méthode… qui ne fait rien :
+**Déplace** les méthodes `peutLancer` et `lancerSort` du `Mage` vers `Heros` (coupe-les dans le `Mage`, colle-les dans `Heros`) :
+
+```javascript
+// Assez de mana pour ce sort ? (Avec 0 mana, le chevalier ne peut jamais.)
+peutLancer(sort) {
+    return this.mana >= sort.cout;
+}
+
+// Dépense le mana, puis laisse le sort agir
+lancerSort(sort, cible) {
+    this.mana -= sort.cout;
+    return sort.lancer(this, cible);
+}
+```
+
+Le `Mage` les **hérite** : il n'a plus besoin de les écrire. Il ne garde que ce qui lui est propre (`regenererMana` et `restaurer`).
+
+Enfin, ajoute à `Heros` cette méthode… qui ne fait rien :
 
 ```javascript
 // Un héros sans mana n'en récupère pas : cette version ne fait rien.
@@ -137,11 +157,12 @@ document.getElementById("btn-mage").addEventListener("click", () => choisirHeros
 - **Polymorphisme** : `Combat` et `Exploration` travaillent avec « un héros », sans savoir lequel.
 - Une méthode **vide** dans le parent (`regenererMana`) évite des `if` partout : l'enfant la remplace s'il en a besoin.
 - Une liste vide (`sorts = []`) donne naturellement « zéro bouton ».
+- Tout ce que `Combat` demande à un héros doit exister dans `Heros` : sinon, le code marche « par chance ».
 
 ## 🏆 Défi
 
 Crée un troisième héros : 🏹 l'**Archer** (`class Archer extends Heros`), 90 PV, 8 à 16 de dégâts, emoji `"🏹"`. Il te faut une classe, un bouton dans l'écran de choix, et une ligne `addEventListener`.
 
-Bonus, à réfléchir : pour donner à l'Archer un sort 🎯 Tir précis (5 mana), de quelle classe devrait-il plutôt hériter, `Heros` ou `Mage` ? Pourquoi ? Essaie, et observe ce qui casse.
+Bonus : donne à l'Archer 20 mana et un sort 🎯 Tir précis (5 mana, 15 à 20 dégâts). Grâce aux méthodes déplacées dans `Heros`, il suffit de remplir `manaMax`, `mana` et `sorts` dans son constructeur. Et son mana remonte-t-il ? Pourquoi ?
 
 ➡️ Suite : [06 – Le son des sorts et code final](./06-son-sorts-code-final.md)

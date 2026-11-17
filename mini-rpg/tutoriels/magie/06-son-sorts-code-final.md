@@ -408,6 +408,17 @@ class Heros extends Personnage {
         this.sorts = [];   // ...et ne connaît aucun sort
     }
 
+    // Assez de mana pour ce sort ? (Avec 0 mana, le chevalier ne peut jamais.)
+    peutLancer(sort) {
+        return this.mana >= sort.cout;
+    }
+
+    // Dépense le mana, puis laisse le sort agir
+    lancerSort(sort, cible) {
+        this.mana -= sort.cout;
+        return sort.lancer(this, cible);
+    }
+
     // Un héros sans mana n'en récupère pas : cette version ne fait rien.
     // Le Mage a sa propre version, qui remplace celle-ci.
     regenererMana(montant) {}
@@ -463,17 +474,6 @@ class Mage extends Heros {
             new Sort("Boule de feu", "🔥", 20, 20, 30),
             new SortDeSoin("Lumière", "✨", 15, 25, 35, "soin")
         ];
-    }
-
-    // Assez de mana pour ce sort ?
-    peutLancer(sort) {
-        return this.mana >= sort.cout;
-    }
-
-    // Dépense le mana, puis laisse le sort agir
-    lancerSort(sort, cible) {
-        this.mana -= sort.cout;
-        return sort.lancer(this, cible);
     }
 
     // Le mana remonte, sans dépasser le maximum
