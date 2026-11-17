@@ -23,7 +23,7 @@ La dernière ligne est la plus importante : une refactorisation réussie ne chan
 | `main.js` | le point d'entrée : crée les objets et les relie | 86 | `outils.js`, `sons.js`, `personnages.js`, `monstre.js`, `journal.js`, `carte.js`, `exploration.js`, `combat.js` |
 | `outils.js` | petites fonctions partagées | 38 | aucun |
 | `sons.js` | bruitages et musique | 143 | aucun |
-| `personnages.js` | Personnage, Heros, Mage | 136 | `outils.js`, `sorts.js` |
+| `personnages.js` | Personnage, Heros, Mage | 137 | `outils.js`, `sorts.js` |
 | `sorts.js` | Sort, SortDeSoin | 51 | `outils.js` |
 | `monstre.js` | Monstre, chargerMonstreAleatoire | 66 | `outils.js`, `personnages.js` |
 | `journal.js` | le journal de combat | 39 | aucun |
@@ -491,6 +491,27 @@ export class Heros extends Personnage {
         this.sorts = [];   // ...et ne connaît aucun sort
     }
 
+    /**
+     * Le héros a-t-il assez de mana pour ce sort ? (Avec 0 mana, le Chevalier ne peut jamais.)
+     * @param {Sort} sort
+     * @returns {boolean}
+     */
+    peutLancer(sort) {
+        return this.mana >= sort.cout;
+    }
+
+    /**
+     * Dépense le mana, puis laisse le sort agir.
+     * Vérifie d'abord avec peutLancer : cette méthode ne le fait pas.
+     * @param {Sort} sort - un des sorts de this.sorts
+     * @param {Personnage} cible - le monstre visé
+     * @returns {string} le message à afficher dans le journal
+     */
+    lancerSort(sort, cible) {
+        this.mana -= sort.cout;
+        return sort.lancer(this, cible);
+    }
+
     // Un héros sans mana n'en récupère pas : cette version ne fait rien.
     // Le Mage a sa propre version, qui remplace celle-ci.
     regenererMana(montant) {}
@@ -520,26 +541,6 @@ export class Mage extends Heros {
             new Sort("Boule de feu", "🔥", 20, 20, 30),
             new SortDeSoin("Lumière", "✨", 15, 25, 35, "soin")
         ];
-    }
-
-    /**
-     * @param {Sort} sort
-     * @returns {boolean} true si le mage a assez de mana pour ce sort
-     */
-    peutLancer(sort) {
-        return this.mana >= sort.cout;
-    }
-
-    /**
-     * Dépense le mana, puis laisse le sort agir.
-     * Vérifie d'abord avec peutLancer : cette méthode ne le fait pas.
-     * @param {Sort} sort - un des sorts de this.sorts
-     * @param {Personnage} cible - le monstre visé
-     * @returns {string} le message à afficher dans le journal
-     */
-    lancerSort(sort, cible) {
-        this.mana -= sort.cout;
-        return sort.lancer(this, cible);
     }
 
     /**
@@ -1085,6 +1086,6 @@ export class Combat {
 
 1. **Un dossier par thème** : range `personnages.js`, `sorts.js` et `monstre.js` dans `js/combattants/`. Quels `import` dois-tu corriger ? (Indice : `../outils.js` remonte d'un dossier.)
 2. **`export default`** : un module peut avoir **un** export « principal ». Cherche la différence entre `export default class Carte` et `export class Carte`, et pourquoi ce tutoriel préfère la seconde (indice : le nom à l'import).
-3. **L'oubli que JSDoc révèle** : ajoute `// @ts-check` en haut de `combat.js`. Parmi les remarques, l'éditeur signale : `Property 'peutLancer' does not exist on type 'Heros'`. Pourtant, le jeu marche avec le Chevalier ! Pourquoi ? (Indice : combien de boutons de sorts a-t-il ?) Corrige proprement : déplace `peutLancer` et `lancerSort` du `Mage` vers `Heros`. Avec `mana = 0`, le Chevalier ne pourra jamais lancer de sort, et le code n'aura plus de piège caché.
+3. **Chasse aux pièges avec `@ts-check`** : ajoute `// @ts-check` en haut de `combat.js` et lis les remarques de l'éditeur. La plupart demandent juste de préciser un type (par exemple `getElementById` renvoie un `HTMLElement` « général », sans `disabled`). Une remarque de ce genre a permis de trouver une vraie faille du dossier `magie` : `peutLancer` et `lancerSort` n'existaient que dans le `Mage`, alors que `Combat` les demande à **tous** les héros. Le jeu marchait seulement parce que le Chevalier n'a aucun bouton de sort. Elles sont maintenant dans `Heros`. Trouveras-tu un autre piège caché ?
 
 ➡️ Ton code est rangé, documenté, prêt à grandir. Place à ton imagination : [écris ton histoire](../histoire/01-introduction.md).

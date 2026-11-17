@@ -69,6 +69,27 @@ export class Heros extends Personnage {
         this.sorts = [];   // ...et ne connaît aucun sort
     }
 
+    /**
+     * Le héros a-t-il assez de mana pour ce sort ? (Avec 0 mana, le Chevalier ne peut jamais.)
+     * @param {Sort} sort
+     * @returns {boolean}
+     */
+    peutLancer(sort) {
+        return this.mana >= sort.cout;
+    }
+
+    /**
+     * Dépense le mana, puis laisse le sort agir.
+     * Vérifie d'abord avec peutLancer : cette méthode ne le fait pas.
+     * @param {Sort} sort - un des sorts de this.sorts
+     * @param {Personnage} cible - le monstre visé
+     * @returns {string} le message à afficher dans le journal
+     */
+    lancerSort(sort, cible) {
+        this.mana -= sort.cout;
+        return sort.lancer(this, cible);
+    }
+
     // Un héros sans mana n'en récupère pas : cette version ne fait rien.
     // Le Mage a sa propre version, qui remplace celle-ci.
     regenererMana(montant) {}
@@ -98,26 +119,6 @@ export class Mage extends Heros {
             new Sort("Boule de feu", "🔥", 20, 20, 30),
             new SortDeSoin("Lumière", "✨", 15, 25, 35, "soin")
         ];
-    }
-
-    /**
-     * @param {Sort} sort
-     * @returns {boolean} true si le mage a assez de mana pour ce sort
-     */
-    peutLancer(sort) {
-        return this.mana >= sort.cout;
-    }
-
-    /**
-     * Dépense le mana, puis laisse le sort agir.
-     * Vérifie d'abord avec peutLancer : cette méthode ne le fait pas.
-     * @param {Sort} sort - un des sorts de this.sorts
-     * @param {Personnage} cible - le monstre visé
-     * @returns {string} le message à afficher dans le journal
-     */
-    lancerSort(sort, cible) {
-        this.mana -= sort.cout;
-        return sort.lancer(this, cible);
     }
 
     /**

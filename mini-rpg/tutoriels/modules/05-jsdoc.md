@@ -143,7 +143,7 @@ export class Carte {
 
 Dans le constructeur, tape `donnees.` : l'éditeur **propose** `tailleTile`, `legende`, `obstacles`… C'est l'**autocomplétion**.
 
-**4.** Continue avec les autres fichiers. Pas besoin de tout documenter : commence par les **classes**, leurs **constructeurs**, et les méthodes **appelées depuis un autre fichier** (`sons.jouer`, `combat.demarrer`, `mage.lancerSort`…). Le [code final](./js/) te montre un exemple complet.
+**4.** Continue avec les autres fichiers. Pas besoin de tout documenter : commence par les **classes**, leurs **constructeurs**, et les méthodes **appelées depuis un autre fichier** (`sons.jouer`, `combat.demarrer`, `heros.lancerSort`…). Le [code final](./js/) te montre un exemple complet.
 
 > Pour désigner une classe d'un autre fichier **sans l'importer** (juste pour la documentation), on écrit son chemin : `@param {import("./sons.js").Sons} sons`.
 
