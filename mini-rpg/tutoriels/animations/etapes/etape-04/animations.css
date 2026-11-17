@@ -1,0 +1,57 @@
+/* Toutes les animations du jeu */
+
+/* ===== Le monde qui respire (étape 02) ===== */
+
+/* L'eau scintille : sa luminosité monte et descend, sans fin */
+.tile-eau {
+    animation: vagues 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes vagues {
+    to { filter: brightness(1.25); }
+}
+
+/* Le héros respire : il monte et descend de 3 pixels, sans fin */
+.sprite-joueur {
+    display: inline-block; /* un <span> doit être "inline-block" pour bouger */
+    animation: respire 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes respire {
+    to { transform: translateY(-3px); }
+}
+
+/* ===== L'entrée en combat (étape 04) ===== */
+
+/* L'écran de combat arrive en fondu, en glissant vers le haut.
+   Il se rejoue tout seul chaque fois que l'écran réapparaît. */
+#combat {
+    animation: arrivee 0.4s ease-out;
+}
+
+@keyframes arrivee {
+    from { opacity: 0; transform: translateY(20px); }
+}
+
+/* Le monstre surgit en rebondissant, puis flotte sur place */
+#sprite-monstre {
+    animation:
+        surgit 0.6s 0.2s cubic-bezier(0.3, 1.6, 0.6, 1) both,
+        flotte 1.5s 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes surgit {
+    from { transform: scale(0); }
+}
+
+@keyframes flotte {
+    to { transform: translateY(-6px); }
+}
+
+/* Les boutons arrivent l'un après l'autre */
+.actions button {
+    animation: arrivee 0.3s ease-out both;
+}
+
+.actions button:nth-child(2) { animation-delay: 0.1s; }
+.actions button:nth-child(3) { animation-delay: 0.2s; }

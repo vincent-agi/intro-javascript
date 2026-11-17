@@ -1088,4 +1088,4 @@ export class Combat {
 2. **`export default`** : un module peut avoir **un** export « principal ». Cherche la différence entre `export default class Carte` et `export class Carte`, et pourquoi ce tutoriel préfère la seconde (indice : le nom à l'import).
 3. **Chasse aux pièges avec `@ts-check`** : ajoute `// @ts-check` en haut de `combat.js` et lis les remarques de l'éditeur. La plupart demandent juste de préciser un type (par exemple `getElementById` renvoie un `HTMLElement` « général », sans `disabled`). Une remarque de ce genre a permis de trouver une vraie faille du dossier `magie` : `peutLancer` et `lancerSort` n'existaient que dans le `Mage`, alors que `Combat` les demande à **tous** les héros. Le jeu marchait seulement parce que le Chevalier n'a aucun bouton de sort. Elles sont maintenant dans `Heros`. Trouveras-tu un autre piège caché ?
 
-➡️ Ton code est rangé, documenté, prêt à grandir. Place à ton imagination : [écris ton histoire](../histoire/01-introduction.md).
+➡️ Suite : ton code est rangé et documenté, mais ton jeu est encore bien statique. [Donne-lui du mouvement avec les animations](../animations/01-introduction.md).

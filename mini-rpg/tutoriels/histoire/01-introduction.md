@@ -6,7 +6,7 @@ Ce dossier ne te donne pas un jeu à recopier. Il t'aide à **faire évoluer le 
 
 ## Point de départ
 
-Pars de ton jeu le plus avancé : à la fin du dossier [`modules`](../modules/06-bilan-code-final.md) (code rangé en fichiers et documenté), sinon du dossier [`magie`](../magie/01-introduction.md) ou du dossier [`son`](../son/06-sons-manquants-code-final.md). Les exemples marchent dans tous les cas, et les rares différences sont signalées.
+Pars de ton jeu le plus avancé : à la fin du dossier [`animations`](../animations/07-mouvement-reduit-code-final.md) (code en modules, documenté et animé), ou du dossier [`modules`](../modules/06-bilan-code-final.md), sinon du dossier [`magie`](../magie/01-introduction.md) ou du dossier [`son`](../son/06-sons-manquants-code-final.md). Les exemples marchent dans tous les cas, et les rares différences sont signalées.
 
 > Si ton code est rangé en modules, chaque exemple te dit **quelle classe** modifier : la carte du code ci-dessous t'indique **dans quel fichier** elle se trouve. Et si tu crées une nouvelle classe, pense à l'`export`er et à l'`import`er là où tu t'en sers.
 
@@ -41,6 +41,8 @@ Pour « trouver où », voici qui fait quoi dans ton jeu :
 | le déroulement d'un combat (tours, victoire, défaite) | classe `Combat` | `js/combat.js` |
 | les sons et la musique | `FICHIERS_SONS` et classe `Sons` | `js/sons.js` |
 | comment tout est relié (qui prévient qui) | fonction `demarrerJeu` | `js/main.js` |
+| les animations (CSS) | `@keyframes`, `transition` | `animations.css` |
+| les animations déclenchées par le code | fonction `animer` | `js/outils.js` |
 
 ## Ta fiche « Mon histoire »
 
