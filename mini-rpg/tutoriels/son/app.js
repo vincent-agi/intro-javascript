@@ -13,13 +13,13 @@ function attendre(ms) {
 // Charge une adresse et renvoie son contenu JSON
 async function chargerJson(url) {
     const reponse = await fetch(url);
-    if (!reponse.ok) {
+    if (!reponse.ok) {  // 404, 500... : fetch ne plante pas tout seul !
         throw new Error("Erreur " + reponse.status + " pour " + url);
     }
     return reponse.json();
 }
 
-// Les sons du jeu : nom -> fichier (à télécharger sur opengameart.org)
+// Les sons du jeu : nom -> fichier (téléchargés sur opengameart.org, voir l'étape 01)
 const FICHIERS_SONS = {
     // Effets
     pas: "sons/pas.wav",
@@ -30,65 +30,43 @@ const FICHIERS_SONS = {
     soin: "sons/soin.wav",
     victoire: "sons/victoire.wav",
     defaite: "sons/defaite.wav",
-    // Musiques (jouées en boucle)
+    // Musiques
     musiqueCarte: "sons/musique-carte.mp3",
     musiqueCombat: "sons/musique-combat.mp3"
 };
 
-const VOLUME_EFFETS = 0.6;
-const VOLUME_MUSIQUE = 0.35;
-
-// Charge, joue et coupe les sons. Un son manquant ne bloque jamais le jeu.
+// Tous les sons du jeu. Le reste du code ne touche jamais aux objets Audio :
+// il demande simplement sons.jouer("attaque").
 class Sons {
     constructor(fichiers) {
         this.fichiers = fichiers;
-        this.audios = {};          // nom -> objet Audio prêt à jouer
-        this.nomMusique = null;    // musique en cours
-        this.muet = localStorage.getItem("muet") === "oui";
-    }
+        this.volumeEffets = 0.6;  // de 0 (silence) à 1 (maximum)
+        this.audios = {};         // nom -> objet Audio
+        this.volumeMusique = 0.35; // plus bas que les effets, pour ne pas les couvrir
+        this.nomMusique = null;    // la musique en cours
+        this.muet = localStorage.getItem("muet") === "oui"; // choix retenu
 
-    // Charge tous les fichiers en parallèle, renvoie les noms de ceux qui manquent
-    async charger() {
-        const manquants = [];
-
-        await Promise.all(Object.keys(this.fichiers).map(async (nom) => {
-            try {
-                this.audios[nom] = await this.chargerUn(this.fichiers[nom]);
-            } catch (erreur) {
-                console.warn("Son manquant :", nom, erreur.message);
-                manquants.push(nom);
-            }
-        }));
-
-        return manquants;
-    }
-
-    // Télécharge un fichier avec fetch et le transforme en objet Audio
-    async chargerUn(url) {
-        const reponse = await fetch(url);
-        if (!reponse.ok) {
-            throw new Error("Erreur " + reponse.status + " pour " + url);
+        // Un objet Audio par fichier : le navigateur commence à les télécharger
+        for (const nom in fichiers) {
+            this.audios[nom] = new Audio(fichiers[nom]);
+            this.audios[nom].muted = this.muet;
         }
-        const blob = await reponse.blob(); // le fichier brut, en mémoire
-        const audio = new Audio(URL.createObjectURL(blob));
-        audio.muted = this.muet;
-        return audio;
     }
 
-    // Joue un effet (on peut le rejouer avant la fin du précédent)
-    jouer(nom) {
+    // Joue un effet. On joue une copie : le même son peut se superposer à lui-même.
+    jouer(nom, volume = this.volumeEffets) {
         const audio = this.audios[nom];
-        if (!audio) return;
+        if (!audio) return; // nom inconnu : on ne fait rien
 
         const copie = audio.cloneNode();
-        copie.volume = VOLUME_EFFETS;
+        copie.volume = volume;
         copie.muted = this.muet;
-        copie.play().catch(() => {}); // le navigateur peut refuser : on ignore
+        copie.play().catch(() => {}); // fichier absent ou navigateur qui refuse : on ignore
     }
 
-    // Lance une musique en boucle, avec un fondu d'entrée
+    // Lance une musique en boucle (une seule à la fois), avec un fondu d'entrée
     jouerMusique(nom) {
-        if (nom === this.nomMusique) return;
+        if (nom === this.nomMusique) return; // déjà en cours
 
         this.arreterMusique();
         this.nomMusique = nom;
@@ -96,10 +74,10 @@ class Sons {
         const audio = this.audios[nom];
         if (!audio) return;
 
-        audio.loop = true;
-        audio.volume = 0;
+        audio.loop = true;       // recommence au début quand elle se termine
+        audio.volume = 0;        // on part du silence...
         audio.play().catch(() => {});
-        this.fondu(audio, VOLUME_MUSIQUE, 600);
+        this.fondu(audio, this.volumeMusique); // ...et on monte doucement
     }
 
     // Coupe la musique en cours, avec un fondu de sortie
@@ -108,25 +86,27 @@ class Sons {
         this.nomMusique = null;
         if (!audio) return;
 
-        this.fondu(audio, 0, 600, () => {
+        this.fondu(audio, 0, () => {
             audio.pause();
-            audio.currentTime = 0;
+            audio.currentTime = 0; // la prochaine fois, depuis le début
         });
     }
 
-    // Fait glisser le volume vers "cible" en "duree" millisecondes
-    fondu(audio, cible, duree, apres) {
+    // Fait glisser le volume vers "cible", un petit cran toutes les 50 ms
+    fondu(audio, cible, quandFini) {
         clearInterval(audio.minuteur); // annule un fondu déjà en cours
 
-        const pas = (cible - audio.volume) / (duree / 50);
         audio.minuteur = setInterval(() => {
-            const volume = audio.volume + pas;
-            const fini = pas > 0 ? volume >= cible : volume <= cible;
+            const ecart = cible - audio.volume;
 
-            audio.volume = fini ? cible : volume;
-            if (fini) {
+            if (Math.abs(ecart) <= 0.05) {   // presque arrivé : on s'arrête
+                audio.volume = cible;
                 clearInterval(audio.minuteur);
-                if (apres) apres();
+                if (quandFini) quandFini();
+            } else if (ecart > 0) {
+                audio.volume += 0.05;        // on monte
+            } else {
+                audio.volume -= 0.05;        // on descend
             }
         }, 50);
     }
@@ -136,9 +116,23 @@ class Sons {
         this.muet = !this.muet;
         localStorage.setItem("muet", this.muet ? "oui" : "non");
 
-        for (const audio of Object.values(this.audios)) {
-            audio.muted = this.muet;
+        for (const nom in this.audios) {
+            this.audios[nom].muted = this.muet;
         }
+    }
+
+    // Demande chaque fichier au serveur, renvoie les noms de ceux qui manquent
+    async verifierFichiers() {
+        const manquants = [];
+
+        for (const nom in this.fichiers) {
+            const reponse = await fetch(this.fichiers[nom]);
+            if (!reponse.ok) {
+                console.warn("Son manquant :", nom, "(" + this.fichiers[nom] + ")");
+                manquants.push(nom);
+            }
+        }
+        return manquants;
     }
 }
 
@@ -197,23 +191,24 @@ class Heros extends Personnage {
 class Monstre extends Personnage {
     constructor(nom, pvMax, degatsMin, degatsMax, sprite = "") {
         super(nom, pvMax, degatsMin, degatsMax);
-        this.sprite = sprite;
+        this.sprite = sprite; // adresse de l'image
     }
 
     // "static" : s'appelle sur la classe (Monstre.depuisApi), pas sur un objet
     static async depuisApi(idOuNom) {
         const donnees = await chargerJson("https://pokeapi.co/api/v2/pokemon/" + idOuNom);
 
+        // Cherche dans le tableau "stats" la statistique de ce nom
         const stat = (nom) => donnees.stats.find((s) => s.stat.name === nom).base_stat;
         const attaque = stat("attack");
-        const nom = donnees.name[0].toUpperCase() + donnees.name.slice(1);
+        const nom = donnees.name[0].toUpperCase() + donnees.name.slice(1); // "gengar" -> "Gengar"
 
         return new Monstre(
             nom,
-            stat("hp"),
-            Math.max(1, Math.round(attaque / 10)),
-            Math.max(1, Math.round(attaque / 5)),
-            donnees.sprites.front_default
+            stat("hp"),                              // PV
+            Math.max(1, Math.round(attaque / 10)),   // dégâts mini
+            Math.max(1, Math.round(attaque / 5)),    // dégâts maxi
+            donnees.sprites.front_default            // image
         );
     }
 
@@ -229,7 +224,7 @@ async function chargerMonstreAleatoire() {
         return await Monstre.depuisApi(nombreAuHasard(1, 151));
     } catch (erreur) {
         console.error(erreur);
-        return new Monstre("Gobelin", 80, 5, 15);
+        return new Monstre("Gobelin", 80, 5, 15); // le plan B, fait main
     }
 }
 
@@ -327,6 +322,7 @@ class Exploration {
     }
 
     toucheAppuyee(evenement) {
+        // Pour chaque touche : [déplacement en x, déplacement en y]
         const directions = {
             ArrowUp: [0, -1],
             ArrowDown: [0, 1],
@@ -347,14 +343,14 @@ class Exploration {
         const x = this.x + dx;
         const y = this.y + dy;
         if (!this.carte.estPraticable(x, y)) {
-            this.sons.jouer("collision");
+            this.sons.jouer("collision"); // collision : bruit, et on ne bouge pas
             return;
         }
 
         this.x = x;
         this.y = y;
         this.afficher();
-        this.sons.jouer("pas");
+        this.sons.jouer("pas", 0.3);      // les pas, plus discrets
 
         // Dans l'herbe haute : 1 chance sur 4 de rencontrer un monstre
         if (this.carte.typeEn(x, y) === "herbe" && Math.random() < 0.25) {
@@ -363,25 +359,27 @@ class Exploration {
         }
     }
 
+    // Après une défaite : retour à la case de départ
     replacerAuDepart() {
         this.x = this.carte.depart.x;
         this.y = this.carte.depart.y;
         this.afficher();
     }
 
+    // Place le joueur à l'écran selon sa case
     afficher() {
         this.element.style.left = this.x * this.carte.taille + "px";
         this.element.style.top = this.y * this.carte.taille + "px";
     }
 }
 
-// Le chef d'orchestre du combat : page, tours de jeu et fin
+// Le chef d'orchestre : page, tours de jeu et fin du combat
 class Combat {
     constructor(heros, journal, sons) {
         this.heros = heros;
         this.journal = journal;
         this.sons = sons;
-        this.monstre = null;
+        this.monstre = null;      // pas encore d'adversaire
         this.enCours = false;
         this.surRetour = () => {}; // branché depuis l'extérieur
 
@@ -438,12 +436,12 @@ class Combat {
         if (this.monstre.estVaincu()) {
             this.journal.ajouter("🎉 Victoire ! " + this.monstre.nom + " est vaincu !");
             this.enCours = false;
-            this.sons.arreterMusique();
+            this.sons.arreterMusique();     // place au jingle de fin
             this.sons.jouer("victoire");
         } else if (this.heros.estVaincu()) {
             this.journal.ajouter("💀 Défaite... Le héros est à terre.");
             this.enCours = false;
-            this.sons.arreterMusique();
+            this.sons.arreterMusique();     // place au jingle de fin
             this.sons.jouer("defaite");
         }
 
@@ -485,24 +483,16 @@ class Combat {
 async function demarrerJeu() {
     const ecranCarte = document.getElementById("carte");
     const ecranCombat = document.getElementById("combat");
-    const statut = document.getElementById("statut");
     const boutonSon = document.getElementById("btn-son");
+    const statut = document.getElementById("statut");
 
-    // 1. Les sons : on les charge avant de jouer
     const sons = new Sons(FICHIERS_SONS);
-    statut.textContent = "⏳ Chargement des sons...";
-    const manquants = await sons.charger();
+    statut.textContent = "⏳ Vérification des sons...";
+    const manquants = await sons.verifierFichiers();
     statut.textContent = manquants.length > 0
-        ? "🔇 " + manquants.length + " son(s) introuvable(s) : voir la console."
-        : "Flèches du clavier pour se déplacer.";
+        ? "🔇 Son(s) introuvable(s) : " + manquants.join(", ")
+        : "🎵 Flèches du clavier pour se déplacer.";
 
-    boutonSon.textContent = sons.muet ? "🔇" : "🔊";
-    boutonSon.addEventListener("click", () => {
-        sons.basculerMuet();
-        boutonSon.textContent = sons.muet ? "🔇" : "🔊";
-    });
-
-    // 2. Le jeu
     const heros = new Heros("Héros");
     const journal = new Journal(
         document.getElementById("journal"),
@@ -514,15 +504,9 @@ async function demarrerJeu() {
     const carte = new Carte(await chargerJson("map.json"), ecranCarte);
     const exploration = new Exploration(carte, sons);
 
-    // Les navigateurs interdisent de lancer un son avant une action du joueur :
-    // la musique démarre à la première touche ou au premier clic.
-    const activerMusique = () => {
-        sons.jouerMusique(exploration.actif ? "musiqueCarte" : "musiqueCombat");
-        document.removeEventListener("keydown", activerMusique);
-        document.removeEventListener("click", activerMusique);
-    };
-    document.addEventListener("keydown", activerMusique);
-    document.addEventListener("click", activerMusique);
+    // Les navigateurs interdisent la musique avant une action du joueur :
+    // on la lance à la première touche appuyée ("once" : une seule fois)
+    document.addEventListener("keydown", () => sons.jouerMusique("musiqueCarte"), { once: true });
 
     // Rencontre : on charge un monstre, puis on passe de la carte au combat
     exploration.surRencontre = async () => {
@@ -537,6 +521,13 @@ async function demarrerJeu() {
         ecranCarte.hidden = true;
         ecranCombat.hidden = false;
     };
+
+    // Bouton muet : l'icône suit l'état des sons
+    boutonSon.textContent = sons.muet ? "🔇" : "🔊";
+    boutonSon.addEventListener("click", () => {
+        sons.basculerMuet();
+        boutonSon.textContent = sons.muet ? "🔇" : "🔊";
+    });
 
     // Fin du combat : retour à la carte (au départ si le héros est tombé)
     combat.surRetour = () => {

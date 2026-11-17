@@ -1,53 +1,71 @@
 # 01 – Introduction : donner une voix au jeu
 
-Ton Mini RPG se déplace, charge des Pokémon et se bat, mais il est **muet**. Un jeu rétro, c'est aussi des *bips*, des coups d'épée et une musique qui change selon la situation. Dans ce tutoriel, tu vas ajouter tout ça.
+Ton Mini RPG se déplace, charge des Pokémon et se bat, mais il est **muet**. Dans ce tutoriel, tu ajoutes des bruitages et de la musique, **étape par étape**. À la fin de **chaque** étape, le jeu marche et tu entends quelque chose de nouveau :
 
-Les sons ne sont **pas fournis** : tu vas les télécharger toi-même sur OpenGameArt. C'est un vrai geste de développeur de jeu.
-
-## Quel son, dans quel contexte ?
-
-| Fichier | Quand il joue | Mots-clés à chercher |
+| Étape | Ce que tu entends en plus | Ce que tu pratiques |
 | --- | --- | --- |
-| `pas.wav` | un pas du héros | *footstep*, *step* |
-| `collision.wav` | le héros se cogne (arbre, eau, bordure) | *bump*, *blip*, *wall* |
-| `rencontre.wav` | un monstre apparaît dans l'herbe | *alert*, *encounter*, *warning* |
-| `attaque.wav` | le héros attaque | *sword*, *slash*, *hit* |
-| `degats.wav` | le héros est touché | *hurt*, *damage* |
-| `soin.wav` | le héros se soigne | *heal*, *powerup*, *magic* |
-| `victoire.wav` | le monstre est vaincu | *victory*, *fanfare*, *jingle* |
-| `defaite.wav` | le héros est à terre | *game over*, *defeat*, *lose* |
-| `musique-carte.mp3` | ambiance sur la carte (en boucle) | *overworld*, *exploration*, *village* |
-| `musique-combat.mp3` | ambiance du combat (en boucle) | *battle*, *fight*, *boss* |
+| 02 | Le coup d'épée quand tu attaques | une classe `Sons`, l'objet `Audio` |
+| 03 | Les pas, les chocs, la rencontre, les dégâts, le soin, la victoire, la défaite | injecter un objet dans d'autres classes |
+| 04 | Une musique sur la carte, une autre en combat | `loop`, fondu avec `setInterval` |
+| 05 | Un bouton pour couper le son, qui se souvient de ton choix | `localStorage` |
+| 06 | Un message clair si un son manque, et le code final | `fetch`, `reponse.ok` |
 
-## Télécharger sur OpenGameArt
+## L'idée : un seul objet s'occupe des sons
 
-1. Va sur [opengameart.org](https://opengameart.org), utilise la recherche et filtre sur **Art Type** : *Sound Effect* ou *Music*.
-2. **Vérifie la licence** sur la page de chaque son :
-   - **CC0** : domaine public, tu fais ce que tu veux (idéal) ;
-   - **CC-BY** : autorisé, mais tu dois **citer l'auteur** ;
-   - **CC-BY-SA**, **GPL** : conditions plus lourdes, à éviter pour débuter.
-3. Télécharge le fichier, **renomme-le** comme dans le tableau, et place-le dans un dossier `sons/`.
-4. Note l'auteur, la licence et l'adresse dans un fichier `sons/CREDITS.md` (modèle fourni dans le dossier du tutoriel).
+Comme `Carte` s'occupe des tuiles et `Combat` du combat, une classe **`Sons`** va s'occuper de **tout** le son. Les autres classes ne touchent jamais aux fichiers audio : elles demandent simplement :
 
-Pour gagner du temps, deux pages à explorer (vérifie la licence de chaque fichier avant de l'utiliser) :
+```javascript
+this.sons.jouer("attaque");
+```
 
-- [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style) : une énorme collection de bruitages rétro, pas, coups, soins, victoires… ;
-- [CC0 – Retro Music](https://opengameart.org/content/cc0-retro-music) : des musiques rétro libres, dont des thèmes de combat et d'exploration.
+C'est le principe de la programmation orientée objet : **chaque objet a un rôle**, et les autres lui **demandent un service** sans savoir comment il s'y prend.
 
-> **Format** : choisis du `.wav` pour les effets et du `.mp3` pour les musiques. Ils marchent sur tous les navigateurs. Le `.ogg` est refusé par certaines versions de Safari. Si tu n'as qu'un `.ogg`, convertis-le, ou adapte les noms de fichiers à l'étape 03.
+## Télécharger les sons (une seule fois)
 
-## Le plan
+Pas besoin de chercher : les sons sont déjà choisis. Ils viennent de [OpenGameArt](https://opengameart.org), un site de ressources libres pour les jeux. Tu n'as que **trois pages** à visiter. Les trois sont sous licence **CC0** (domaine public) : tu peux les utiliser librement, mais créditer l'auteur reste une bonne habitude.
 
-| Étape | Ce que tu ajoutes | Notion |
+Crée un dossier `sons/` dans ton projet. Tu vas y ranger **10 fichiers**, avec **exactement** les noms de la colonne de gauche.
+
+### 1. Les bruitages : un seul pack pour les 8 effets
+
+👉 [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style), par Juhani Junkala (CC0)
+
+Télécharge le fichier `.zip` (bouton sous *File(s)*) et décompresse-le. Les sons sont rangés par dossiers. Écoute-en quelques-uns dans chaque dossier, choisis celui qui te plaît, **copie-le** dans `sons/` et **renomme-le** :
+
+| Nom à donner | Quand il joue | Où le chercher dans le pack |
 | --- | --- | --- |
-| 02 | Ton premier son | objet `Audio`, `play()`, règle de l'autoplay |
-| 03 | Une classe `Sons` et des effets dans chaque contexte | `fetch` + `blob`, `Promise.all`, `cloneNode` |
-| 04 | Une musique différente sur la carte et en combat | `loop`, fondu avec `setInterval` |
-| 05 | Bouton muet et sons manquants | `localStorage`, jeu robuste, code final |
+| `pas.wav` | un pas du héros | dossier *Movement*, sons *footsteps* |
+| `collision.wav` | le héros se cogne (arbre, eau, bord) | dossier *General Sounds*, sons *impact* ou *negative* |
+| `rencontre.wav` | un monstre surgit dans l'herbe | dossier *General Sounds*, sons d'alarme ou *negative* |
+| `attaque.wav` | le héros attaque | dossier *Weapons*, un coup d'épée ou un *hit* |
+| `degats.wav` | le héros est touché | dossier *General Sounds*, sons *damage* ou *hit* |
+| `soin.wav` | le héros se soigne | dossier *General Sounds*, sons *positive* ou *power up* |
+| `victoire.wav` | le monstre est vaincu | dossier *General Sounds*, sons *fanfare* |
+| `defaite.wav` | le héros est à terre | dossier *Death Screams* ou sons *negative* |
+
+> C'est **ton** jeu : il n'y a pas de mauvais choix. Si un dossier porte un nom un peu différent, prends un son qui colle au moment du jeu.
+
+### 2. La musique de la carte
+
+👉 [Town Theme RPG](https://opengameart.org/content/town-theme-rpg), par cynicmusic (CC0)
+
+Télécharge le fichier `.mp3`, place-le dans `sons/` et renomme-le **`musique-carte.mp3`**.
+
+### 3. La musique de combat
+
+👉 [Battle Theme A](https://opengameart.org/content/battle-theme-a), par cynicmusic (CC0)
+
+Télécharge le fichier `.mp3`, place-le dans `sons/` et renomme-le **`musique-combat.mp3`**.
+
+### Les crédits
+
+Le fichier [`sons/CREDITS.md`](./sons/CREDITS.md) est déjà rempli avec ces trois sources. Copie-le dans ton dossier `sons/` et complète-le si tu changes un son.
+
+> **Vérifie toujours la licence** sur la page d'un son avant de l'utiliser : **CC0** = libre ; **CC-BY** = libre, mais tu **dois** citer l'auteur ; **CC-BY-SA**, **GPL** = conditions plus lourdes, à éviter pour débuter.
 
 ## Point de départ
 
-Copie le dossier du tutoriel précédent (`api`) dans un nouveau dossier de travail, et ajoute un dossier `sons/` avec tes fichiers :
+Copie le jeu terminé du tutoriel précédent ([`api`](../api/07-retour-code-final.md)) dans un nouveau dossier, et ajoute `sons/` :
 
 ```
 mon-rpg-son/
@@ -63,12 +81,17 @@ mon-rpg-son/
     └── CREDITS.md
 ```
 
-Lance ton serveur local (`npx serve` ou `python3 -m http.server`) comme à l'étape 01 du tutoriel précédent.
+Lance ton serveur local (`npx serve`, `python3 -m http.server` ou Live Server), comme dans le tutoriel précédent.
 
-> **Pas de panique si certains sons manquent** : le jeu que tu vas écrire fonctionne même sans eux. Tu peux commencer avec un ou deux sons et en ajouter ensuite.
+> 🆘 **Bloqué à une étape ?** Le dossier [`etapes/`](./etapes/) contient le code complet et fonctionnel des étapes 02 à 05. Le jeu final (étape 06) est dans ce dossier-ci. Les fichiers audio ne sont **pas** fournis : copie ton dossier `sons/` à côté du code que tu veux essayer.
+
+## Vérifier
+
+1. Double-clique sur deux ou trois fichiers de `sons/` : ils se lisent dans ton lecteur audio.
+2. Ouvre `http://localhost:…/sons/attaque.wav` dans le navigateur (avec le port de ton serveur) : le son se joue. C'est la preuve que ton serveur le **sert** bien, et donc que le jeu pourra le charger.
 
 ## 🏆 Défi
 
-Avant de coder, télécharge **au moins** `attaque.wav` et `musique-combat.mp3`, écoute-les dans ton lecteur, et remplis leur ligne dans `CREDITS.md`.
+Dans le pack de 512 sons, trouve un **deuxième** son d'attaque qui te plaît, et garde-le de côté sous le nom `attaque2.wav`. Il servira au défi de l'étape 02.
 
-➡️ Suite : [02 – Ton premier son](./02-premier-son.md)
+➡️ Suite : [02 – La classe `Sons` et le premier son](./02-premier-son.md)

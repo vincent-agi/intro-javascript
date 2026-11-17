@@ -1,16 +1,11 @@
 # Crédits des sons
 
-Liste ici chaque son téléchargé sur [OpenGameArt](https://opengameart.org) : c'est **obligatoire** pour les licences CC-BY (et une bonne habitude pour les autres).
+Les sons du jeu viennent d'[OpenGameArt](https://opengameart.org). Licence CC0 : citer l'auteur n'est pas obligatoire, mais c'est une bonne habitude (et c'est **obligatoire** pour une licence CC-BY).
 
-| Fichier | Titre | Auteur | Licence | Page |
+| Fichier(s) | Œuvre | Auteur | Licence | Page |
 | --- | --- | --- | --- | --- |
-| `pas.wav` | | | | |
-| `collision.wav` | | | | |
-| `rencontre.wav` | | | | |
-| `attaque.wav` | | | | |
-| `degats.wav` | | | | |
-| `soin.wav` | | | | |
-| `victoire.wav` | | | | |
-| `defaite.wav` | | | | |
-| `musique-carte.mp3` | | | | |
-| `musique-combat.mp3` | | | | |
+| `pas.wav`, `collision.wav`, `rencontre.wav`, `attaque.wav`, `degats.wav`, `soin.wav`, `victoire.wav`, `defaite.wav` | 512 Sound Effects (8-bit style) | Juhani Junkala | CC0 | <https://opengameart.org/content/512-sound-effects-8-bit-style> |
+| `musique-carte.mp3` | Town Theme RPG | cynicmusic | CC0 | <https://opengameart.org/content/town-theme-rpg> |
+| `musique-combat.mp3` | Battle Theme A | cynicmusic | CC0 | <https://opengameart.org/content/battle-theme-a> |
+
+Si tu remplaces un son, ajoute une ligne ici avec son titre, son auteur, sa licence et l'adresse de sa page.

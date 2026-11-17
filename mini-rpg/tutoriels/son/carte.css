@@ -38,13 +38,14 @@
     image-rendering: pixelated;
 }
 
-/* Bouton son et message d'état */
+/* Bouton son, en haut à droite */
 #btn-son {
     position: fixed;
     top: 10px;
     right: 10px;
 }
 
+/* Message d'état (sons manquants) */
 #statut {
     min-height: 1.2em;
     color: #666;
