@@ -727,4 +727,4 @@ export class Combat {
 2. **Le sort qui vole** : quand le Mage lance une Boule de feu, crée un `<span>🔥</span>` qui part de la zone du héros et vole jusqu'au monstre (`animer` avec deux `transform: translate(...)`), et n'applique les dégâts **qu'à l'arrivée** (`await`).
 3. **Le tour par tour animé** : fais le défi de l'étape 05 (riposte après une pause), puis désactive tous les boutons pendant les animations. Ton combat ressemblera enfin à celui des vieux jeux !
 
-➡️ Ton jeu bouge, il est vivant. Place à ton imagination : [écris ton histoire](../histoire/01-introduction.md).
+➡️ Suite : ton jeu bouge, il est vivant. Avant de te lancer dans ta propre histoire, [prends du recul sur tout le chemin parcouru](../recapitulatif/01-chemin-parcouru.md).
