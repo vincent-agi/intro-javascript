@@ -17,6 +17,14 @@ export class Journal {
     }
 
     /**
+     * Efface tous les événements (au début d'un nouveau combat).
+     */
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
+    /**
      * Affiche un nouvel événement (et le met en message principal).
      * @param {string} texte
      */

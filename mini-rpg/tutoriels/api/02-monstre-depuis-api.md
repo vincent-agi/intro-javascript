@@ -49,6 +49,7 @@ On va fabriquer un `Monstre` **à partir de la fiche** de PokeAPI :
 #sprite-monstre {
     width: 96px;
     height: 96px;
+    margin-top: 16px; /* un peu d'air sous la barre du héros */
     image-rendering: pixelated;
 }
 ```

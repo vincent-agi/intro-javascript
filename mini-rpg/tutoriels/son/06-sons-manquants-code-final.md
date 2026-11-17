@@ -192,6 +192,7 @@ Et le reste du jeu ne connaît que trois phrases : `jouer`, `jouerMusique`, `arr
 #sprite-monstre {
     width: 96px;
     height: 96px;
+    margin-top: 16px; /* un peu d'air sous la barre du héros */
     image-rendering: pixelated;
 }
 
@@ -451,6 +452,12 @@ class Journal {
         this.evenements = [];
     }
 
+    // Efface tous les événements (au début d'un nouveau combat)
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
     ajouter(texte) {
         this.message.textContent = texte;
         this.evenements.push(texte);
@@ -617,6 +624,7 @@ class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;
@@ -766,4 +774,4 @@ demarrerJeu();
 3. **Une musique d'alerte** : quand le héros passe sous `25 PV`, remplace la musique de combat par une autre plus stressante.
 4. **Les crédits dans le jeu** : un petit `<footer>` dans `index.html` qui cite les auteurs des sons.
 
-➡️ Suite : [ajoute un Mage et de la magie](../magie/01-introduction.md), puis [écris ta propre histoire](../histoire/01-introduction.md).
+➡️ Suite : [ajoute un Mage qui combat avec du mana et des sorts](../magie/01-introduction.md).

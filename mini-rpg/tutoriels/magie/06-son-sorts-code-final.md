@@ -15,7 +15,7 @@ Pour l'éclat du monstre, une seule ligne suffit : `element.animate(...)` joue u
 
 ## Le code
 
-**1.** Télécharge un son de magie dans le pack [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style) (dossier *General Sounds*, un son *positive* ou *power up*). Range-le dans `sons/` sous le nom `magie.wav`, et ajoute une ligne à `sons/CREDITS.md`.
+**1.** Télécharge un son de magie dans le pack [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style) (sous-dossier `General Sounds/Positive Sounds`, par exemple `sfx_sounds_powerup5.wav`). Range-le dans `sons/` sous le nom `magie.wav`, et ajoute une ligne à `sons/CREDITS.md`.
 
 Dans `FICHIERS_SONS`, après `defaite` :
 
@@ -195,6 +195,7 @@ Sort
 #sprite-monstre {
     width: 96px;
     height: 96px;
+    margin-top: 16px; /* un peu d'air sous la barre du héros */
     image-rendering: pixelated;
 }
 
@@ -538,6 +539,12 @@ class Journal {
         this.evenements = [];
     }
 
+    // Efface tous les événements (au début d'un nouveau combat)
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
     ajouter(texte) {
         this.message.textContent = texte;
         this.evenements.push(texte);
@@ -735,6 +742,7 @@ class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;

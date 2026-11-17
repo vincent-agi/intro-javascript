@@ -4,7 +4,7 @@ Les sons du jeu viennent d'[OpenGameArt](https://opengameart.org). Licence CC0 :
 
 | Fichier(s) | Œuvre | Auteur | Licence | Page |
 | --- | --- | --- | --- | --- |
-| `pas.wav`, `collision.wav`, `rencontre.wav`, `attaque.wav`, `degats.wav`, `soin.wav`, `victoire.wav`, `defaite.wav` | 512 Sound Effects (8-bit style) | Juhani Junkala | CC0 | <https://opengameart.org/content/512-sound-effects-8-bit-style> |
+| `pas.wav`, `collision.wav`, `rencontre.wav`, `attaque.wav`, `degats.wav`, `soin.wav`, `victoire.wav`, `defaite.wav` | 512 Sound Effects (8-bit style) | SubspaceAudio (Juhani Junkala) | CC0 | <https://opengameart.org/content/512-sound-effects-8-bit-style> |
 | `musique-carte.mp3` | Town Theme RPG | cynicmusic | CC0 | <https://opengameart.org/content/town-theme-rpg> |
 | `musique-combat.mp3` | Battle Theme A | cynicmusic | CC0 | <https://opengameart.org/content/battle-theme-a> |
 

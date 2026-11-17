@@ -28,34 +28,34 @@ Crée un dossier `sons/` dans ton projet. Tu vas y ranger **10 fichiers**, avec 
 
 ### 1. Les bruitages : un seul pack pour les 8 effets
 
-👉 [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style), par Juhani Junkala (CC0)
+👉 [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style), par SubspaceAudio, alias Juhani Junkala (CC0)
 
-Télécharge le fichier `.zip` (bouton sous *File(s)*) et décompresse-le. Les sons sont rangés par dossiers. Écoute-en quelques-uns dans chaque dossier, choisis celui qui te plaît, **copie-le** dans `sons/` et **renomme-le** :
+Télécharge le fichier `.zip` (bouton sous *File(s)*, environ 20 Mo) et décompresse-le. Tu obtiens un dossier `The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala`, rangé en sous-dossiers. Pour chaque son du jeu, ouvre le sous-dossier indiqué, **écoute** quelques fichiers, choisis celui qui te plaît, **copie-le** dans `sons/` et **renomme-le** :
 
-| Nom à donner | Quand il joue | Où le chercher dans le pack |
-| --- | --- | --- |
-| `pas.wav` | un pas du héros | dossier *Movement*, sons *footsteps* |
-| `collision.wav` | le héros se cogne (arbre, eau, bord) | dossier *General Sounds*, sons *impact* ou *negative* |
-| `rencontre.wav` | un monstre surgit dans l'herbe | dossier *General Sounds*, sons d'alarme ou *negative* |
-| `attaque.wav` | le héros attaque | dossier *Weapons*, un coup d'épée ou un *hit* |
-| `degats.wav` | le héros est touché | dossier *General Sounds*, sons *damage* ou *hit* |
-| `soin.wav` | le héros se soigne | dossier *General Sounds*, sons *positive* ou *power up* |
-| `victoire.wav` | le monstre est vaincu | dossier *General Sounds*, sons *fanfare* |
-| `defaite.wav` | le héros est à terre | dossier *Death Screams* ou sons *negative* |
+| Nom à donner | Quand il joue | Sous-dossier du pack | Par exemple |
+| --- | --- | --- | --- |
+| `pas.wav` | un pas du héros | `Movement/Footsteps` | `sfx_movement_footsteps1a.wav` |
+| `collision.wav` | le héros se cogne (arbre, eau, bord) | `General Sounds/Impacts` | `sfx_sounds_impact1.wav` |
+| `rencontre.wav` | un monstre surgit dans l'herbe | `General Sounds/Interactions` | `sfx_sounds_interaction5.wav` |
+| `attaque.wav` | le héros attaque | `Weapons/Melee` | `sfx_wpn_sword1.wav` |
+| `degats.wav` | le héros est touché | `General Sounds/Simple Damage Sounds` | `sfx_damage_hit3.wav` |
+| `soin.wav` | le héros se soigne | `General Sounds/Positive Sounds` | `sfx_sounds_powerup3.wav` |
+| `victoire.wav` | le monstre est vaincu | `General Sounds/Fanfares` | `sfx_sounds_fanfare1.wav` |
+| `defaite.wav` | le héros est à terre | `General Sounds/Negative Sounds` | `sfx_sounds_error1.wav` |
 
-> C'est **ton** jeu : il n'y a pas de mauvais choix. Si un dossier porte un nom un peu différent, prends un son qui colle au moment du jeu.
+> C'est **ton** jeu : les exemples ne sont que des points de départ. Écoute les voisins dans le même dossier et garde ceux que tu préfères. Choisis des sons **courts** (moins d'une seconde) : ils accompagnent une action, ils ne doivent pas la ralentir.
 
 ### 2. La musique de la carte
 
 👉 [Town Theme RPG](https://opengameart.org/content/town-theme-rpg), par cynicmusic (CC0)
 
-Télécharge le fichier `.mp3`, place-le dans `sons/` et renomme-le **`musique-carte.mp3`**.
+Télécharge le fichier `TownTheme.mp3`, place-le dans `sons/` et renomme-le **`musique-carte.mp3`**.
 
 ### 3. La musique de combat
 
 👉 [Battle Theme A](https://opengameart.org/content/battle-theme-a), par cynicmusic (CC0)
 
-Télécharge le fichier `.mp3`, place-le dans `sons/` et renomme-le **`musique-combat.mp3`**.
+Télécharge le fichier `battleThemeA.mp3`, place-le dans `sons/` et renomme-le **`musique-combat.mp3`**.
 
 ### Les crédits
 

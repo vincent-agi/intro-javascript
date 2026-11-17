@@ -26,10 +26,10 @@ La dernière ligne est la plus importante : une refactorisation réussie ne chan
 | `personnages.js` | Personnage, Heros, Mage | 137 | `outils.js`, `sorts.js` |
 | `sorts.js` | Sort, SortDeSoin | 51 | `outils.js` |
 | `monstre.js` | Monstre, chargerMonstreAleatoire | 66 | `outils.js`, `personnages.js` |
-| `journal.js` | le journal de combat | 39 | aucun |
+| `journal.js` | le journal de combat | 47 | aucun |
 | `carte.js` | la grille de tuiles | 71 | aucun |
 | `exploration.js` | le héros sur la carte | 87 | aucun |
-| `combat.js` | le déroulement d'un combat | 179 | aucun |
+| `combat.js` | le déroulement d'un combat | 180 | aucun |
 
 Et les dépendances, en un schéma :
 
@@ -708,6 +708,14 @@ export class Journal {
     }
 
     /**
+     * Efface tous les événements (au début d'un nouveau combat).
+     */
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
+    /**
      * Affiche un nouvel événement (et le met en message principal).
      * @param {string} texte
      */
@@ -975,6 +983,7 @@ export class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;

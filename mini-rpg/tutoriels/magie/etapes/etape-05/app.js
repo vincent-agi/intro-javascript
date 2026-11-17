@@ -309,6 +309,12 @@ class Journal {
         this.evenements = [];
     }
 
+    // Efface tous les événements (au début d'un nouveau combat)
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
     ajouter(texte) {
         this.message.textContent = texte;
         this.evenements.push(texte);
@@ -506,6 +512,7 @@ class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;

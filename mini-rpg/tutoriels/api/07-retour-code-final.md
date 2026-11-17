@@ -196,6 +196,7 @@ Joue une vraie partie :
 #sprite-monstre {
     width: 96px;
     height: 96px;
+    margin-top: 16px; /* un peu d'air sous la barre du héros */
     image-rendering: pixelated;
 }
 ```
@@ -323,6 +324,12 @@ class Journal {
         this.message = message;
         this.taille = taille;
         this.evenements = [];
+    }
+
+    // Efface tous les événements (au début d'un nouveau combat)
+    vider() {
+        this.evenements = [];
+        this.afficher();
     }
 
     ajouter(texte) {
@@ -484,6 +491,7 @@ class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;
@@ -604,4 +612,4 @@ demarrerJeu();
 3. **Un compteur de victoires** affiché au-dessus de la carte.
 4. **Une plus grande carte** : dessine ton propre monde dans `map.json`. Tu n'as rien à changer dans `app.js` !
 
-➡️ Pour aller plus loin : [donne une voix à ton jeu avec des sons et de la musique](../son/01-introduction.md).
+➡️ Suite : [donne une voix à ton jeu avec des sons et de la musique](../son/01-introduction.md).
