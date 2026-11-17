@@ -765,3 +765,5 @@ demarrerJeu();
 2. **Un coup critique** : si les dégâts du héros dépassent `18`, joue un autre son (`critique.wav`, à choisir dans le pack).
 3. **Une musique d'alerte** : quand le héros passe sous `25 PV`, remplace la musique de combat par une autre plus stressante.
 4. **Les crédits dans le jeu** : un petit `<footer>` dans `index.html` qui cite les auteurs des sons.
+
+➡️ Suite : [ajoute un Mage et de la magie](../magie/01-introduction.md), puis [écris ta propre histoire](../histoire/01-introduction.md).
