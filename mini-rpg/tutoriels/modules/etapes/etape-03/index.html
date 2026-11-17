@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini RPG</title>
+    <link rel="stylesheet" href="../../../../style.css">
+    <link rel="stylesheet" href="carte.css">
+</head>
+<body>
+    <h1>Mini RPG ⚔️</h1>
+
+    <!-- Bouton son (et message d'état) -->
+    <button id="btn-son" title="Couper / remettre le son">🔊</button>
+    <p id="statut"></p>
+
+    <!-- Le choix du héros, avant de commencer -->
+    <div id="choix">
+        <h2>Choisis ton héros</h2>
+        <button id="btn-chevalier">🤺 Chevalier<br><small>100 PV, frappe fort</small></button>
+        <button id="btn-mage">🧙 Mage<br><small>80 PV, 50 mana, 3 sorts</small></button>
+    </div>
+
+    <!-- La carte (flèches du clavier pour se déplacer) -->
+    <div id="carte"></div>
+
+    <!-- Le combat : caché tant qu'aucun monstre n'apparaît -->
+    <div id="combat" hidden>
+        <!-- Le héros -->
+        <section>
+            <h2><span id="nom-heros">Héros</span> : <span id="pv-joueur">100</span> PV</h2>
+            <div class="barre"><div id="barre-joueur" class="vie"></div></div>
+            <!-- Le mana du mage -->
+            <div id="zone-mana">
+                <p>🔮 Mana : <span id="mana-joueur">50</span></p>
+                <div class="barre"><div id="barre-mana" class="vie"></div></div>
+            </div>
+        </section>
+
+        <!-- Le monstre -->
+        <section>
+            <img id="sprite-monstre" alt="">
+            <h2>👹 <span id="nom-monstre">Monstre</span> : <span id="pv-monstre">80</span> PV</h2>
+            <div class="barre"><div id="barre-monstre" class="vie"></div></div>
+        </section>
+
+        <!-- Les boutons d'action -->
+        <div class="actions">
+            <button id="btn-attaque">⚔️ Attaquer</button>
+            <button id="btn-soin">💚 Se soigner</button>
+            <button id="btn-retour" hidden>🗺️ Retour à la carte</button>
+        </div>
+
+        <!-- Les sorts : un bouton par sort, créé par JavaScript -->
+        <div id="sorts" class="actions"></div>
+
+        <!-- Message principal et journal de combat -->
+        <p id="message"></p>
+        <h3>Journal de combat</h3>
+        <ul id="journal"></ul>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

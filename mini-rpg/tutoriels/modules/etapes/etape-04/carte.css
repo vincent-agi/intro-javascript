@@ -1,0 +1,62 @@
+/* La carte : une grille de tuiles, le joueur flotte par-dessus */
+#carte {
+    position: relative;
+    display: grid;
+    width: max-content;
+    margin: 20px auto;
+}
+
+/* display:grid écraserait l'attribut hidden : on le rétablit */
+#carte[hidden] { display: none; }
+
+.tile-chemin { background: #e8d9a8; }
+.tile-herbe  { background: #6cbf5a; }
+.tile-arbre  { background: #2e6b34; }
+.tile-eau    { background: #4aa3df; }
+
+.joueur {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.12s, top 0.12s;
+}
+
+/* Rencontre : la carte clignote, comme dans les vieux jeux */
+.rencontre {
+    animation: clignote 0.2s 4;
+}
+
+@keyframes clignote {
+    50% { filter: brightness(3); }
+}
+
+/* Le monstre venu de l'API */
+#sprite-monstre {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+}
+
+/* Bouton son, en haut à droite */
+#btn-son {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+/* Message d'état (sons manquants) */
+#statut {
+    min-height: 1.2em;
+    color: #666;
+}
+
+/* La barre de mana : bleue */
+#barre-mana {
+    background: #3f6fd8;
+}
+
+/* Les boutons de sorts, un peu d'espace entre eux */
+#sorts button {
+    margin: 4px;
+}

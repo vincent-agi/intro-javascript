@@ -918,4 +918,4 @@ document.getElementById("btn-mage").addEventListener("click", () => choisirHeros
 2. **Potion de mana** : un bouton 🧪 qui rend 30 mana, utilisable 3 fois par partie.
 3. **Monstres magiques** : les Pokémon de type *psychic* (PokeAPI : `donnees.types`) résistent à la magie et prennent moitié moins de dégâts des sorts.
 
-➡️ Et maintenant, c'est **ton** histoire : [écris la suite de ton RPG](../histoire/01-introduction.md).
+➡️ Suite : ton `app.js` a beaucoup grandi. Avant d'écrire ta propre histoire, [range ton code en modules et documente-le](../modules/01-introduction.md).

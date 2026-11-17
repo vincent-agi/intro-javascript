@@ -6,7 +6,9 @@ Ce dossier ne te donne pas un jeu à recopier. Il t'aide à **faire évoluer le 
 
 ## Point de départ
 
-Pars de ton jeu à la fin du dossier [`son`](../son/06-sons-manquants-code-final.md). Si tu as fait le dossier [`magie`](../magie/01-introduction.md), pars de celui-là : les exemples marchent aussi, et les rares différences sont signalées.
+Pars de ton jeu le plus avancé : à la fin du dossier [`modules`](../modules/06-bilan-code-final.md) (code rangé en fichiers et documenté), sinon du dossier [`magie`](../magie/01-introduction.md) ou du dossier [`son`](../son/06-sons-manquants-code-final.md). Les exemples marchent dans tous les cas, et les rares différences sont signalées.
+
+> Si ton code est rangé en modules, chaque exemple te dit **quelle classe** modifier : la carte du code ci-dessous t'indique **dans quel fichier** elle se trouve. Et si tu crées une nouvelle classe, pense à l'`export`er et à l'`import`er là où tu t'en sers.
 
 **Avant de toucher à quoi que ce soit, fais une copie de sauvegarde** de ton dossier (`mon-rpg-v1`). Si tu casses tout, tu pourras toujours revenir en arrière. (Et si tu connais Git, c'est le moment de faire un *commit* !)
 
@@ -27,16 +29,18 @@ Chaque idée, même la plus folle, se construit de la même façon :
 
 Pour « trouver où », voici qui fait quoi dans ton jeu :
 
-| Je veux changer… | Je regarde… |
-| --- | --- |
-| la forme du monde, les obstacles, le départ | `map.json` |
-| les couleurs, les images, la mise en page | `carte.css`, `index.html` |
-| les PV, les dégâts, le soin du héros | classes `Personnage` et `Heros` |
-| les monstres (qui, combien de PV, quels dégâts) | classe `Monstre`, fonction `chargerMonstreAleatoire` |
-| ce qui se passe quand on marche (collisions, rencontres) | classe `Exploration`, méthode `deplacer` |
-| le déroulement d'un combat (tours, victoire, défaite) | classe `Combat` |
-| les sons et la musique | `FICHIERS_SONS` et classe `Sons` |
-| comment tout est relié (qui prévient qui) | fonction `demarrerJeu` |
+| Je veux changer… | Je regarde… | Fichier (si ton code est en modules) |
+| --- | --- | --- |
+| la forme du monde, les obstacles, le départ | `map.json` | `map.json` |
+| les couleurs, les images, la mise en page | `carte.css`, `index.html` | `carte.css`, `index.html` |
+| les PV, les dégâts, le soin du héros | classes `Personnage` et `Heros` (et `Mage`) | `js/personnages.js` |
+| les sorts | classes `Sort` et `SortDeSoin` | `js/sorts.js` |
+| les monstres (qui, combien de PV, quels dégâts) | classe `Monstre`, fonction `chargerMonstreAleatoire` | `js/monstre.js` |
+| la carte en JavaScript (tuiles, collisions) | classe `Carte` | `js/carte.js` |
+| ce qui se passe quand on marche (rencontres) | classe `Exploration`, méthode `deplacer` | `js/exploration.js` |
+| le déroulement d'un combat (tours, victoire, défaite) | classe `Combat` | `js/combat.js` |
+| les sons et la musique | `FICHIERS_SONS` et classe `Sons` | `js/sons.js` |
+| comment tout est relié (qui prévient qui) | fonction `demarrerJeu` | `js/main.js` |
 
 ## Ta fiche « Mon histoire »
 
