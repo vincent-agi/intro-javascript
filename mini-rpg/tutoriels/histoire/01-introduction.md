@@ -12,6 +12,8 @@ Pars de ton jeu le plus avancé : à la fin du dossier [`animations`](../animati
 
 **Avant de toucher à quoi que ce soit, fais une copie de sauvegarde** de ton dossier (`mon-rpg-v1`). Si tu casses tout, tu pourras toujours revenir en arrière. (Et si tu connais Git, c'est le moment de faire un *commit* !)
 
+> 📚 Garde le [récapitulatif des notions](../recapitulatif/01-chemin-parcouru.md) ouvert à côté : c'est ton aide-mémoire pendant que tu inventes.
+
 ## La méthode : 4 temps, en boucle
 
 Chaque idée, même la plus folle, se construit de la même façon :
