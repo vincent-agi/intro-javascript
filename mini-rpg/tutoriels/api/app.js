@@ -5,10 +5,15 @@ function nombreAuHasard(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Met le programme en pause pendant "ms" millisecondes (à utiliser avec await)
+function attendre(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // Charge une adresse et renvoie son contenu JSON
 async function chargerJson(url) {
     const reponse = await fetch(url);
-    if (!reponse.ok) {
+    if (!reponse.ok) {  // 404, 500... : fetch ne plante pas tout seul !
         throw new Error("Erreur " + reponse.status + " pour " + url);
     }
     return reponse.json();
@@ -69,23 +74,24 @@ class Heros extends Personnage {
 class Monstre extends Personnage {
     constructor(nom, pvMax, degatsMin, degatsMax, sprite = "") {
         super(nom, pvMax, degatsMin, degatsMax);
-        this.sprite = sprite;
+        this.sprite = sprite; // adresse de l'image
     }
 
     // "static" : s'appelle sur la classe (Monstre.depuisApi), pas sur un objet
     static async depuisApi(idOuNom) {
         const donnees = await chargerJson("https://pokeapi.co/api/v2/pokemon/" + idOuNom);
 
+        // Cherche dans le tableau "stats" la statistique de ce nom
         const stat = (nom) => donnees.stats.find((s) => s.stat.name === nom).base_stat;
         const attaque = stat("attack");
-        const nom = donnees.name[0].toUpperCase() + donnees.name.slice(1);
+        const nom = donnees.name[0].toUpperCase() + donnees.name.slice(1); // "gengar" -> "Gengar"
 
         return new Monstre(
             nom,
-            stat("hp"),
-            Math.max(1, Math.round(attaque / 10)),
-            Math.max(1, Math.round(attaque / 5)),
-            donnees.sprites.front_default
+            stat("hp"),                              // PV
+            Math.max(1, Math.round(attaque / 10)),   // dégâts mini
+            Math.max(1, Math.round(attaque / 5)),    // dégâts maxi
+            donnees.sprites.front_default            // image
         );
     }
 
@@ -101,7 +107,7 @@ async function chargerMonstreAleatoire() {
         return await Monstre.depuisApi(nombreAuHasard(1, 151));
     } catch (erreur) {
         console.error(erreur);
-        return new Monstre("Gobelin", 80, 5, 15);
+        return new Monstre("Gobelin", 80, 5, 15); // le plan B, fait main
     }
 }
 
@@ -198,6 +204,7 @@ class Exploration {
     }
 
     toucheAppuyee(evenement) {
+        // Pour chaque touche : [déplacement en x, déplacement en y]
         const directions = {
             ArrowUp: [0, -1],
             ArrowDown: [0, 1],
@@ -217,7 +224,7 @@ class Exploration {
 
         const x = this.x + dx;
         const y = this.y + dy;
-        if (!this.carte.estPraticable(x, y)) return;
+        if (!this.carte.estPraticable(x, y)) return; // collision : on ne bouge pas
 
         this.x = x;
         this.y = y;
@@ -229,24 +236,26 @@ class Exploration {
         }
     }
 
+    // Après une défaite : retour à la case de départ
     replacerAuDepart() {
         this.x = this.carte.depart.x;
         this.y = this.carte.depart.y;
         this.afficher();
     }
 
+    // Place le joueur à l'écran selon sa case
     afficher() {
         this.element.style.left = this.x * this.carte.taille + "px";
         this.element.style.top = this.y * this.carte.taille + "px";
     }
 }
 
-// Le chef d'orchestre du combat : page, tours de jeu et fin
+// Le chef d'orchestre : page, tours de jeu et fin du combat
 class Combat {
     constructor(heros, journal) {
         this.heros = heros;
         this.journal = journal;
-        this.monstre = null;
+        this.monstre = null;      // pas encore d'adversaire
         this.enCours = false;
         this.surRetour = () => {}; // branché depuis l'extérieur
 
@@ -275,12 +284,16 @@ class Combat {
         this.boutonSoin.disabled = false;
         this.boutonRetour.hidden = true;
 
-        this.nomMonstre.textContent = monstre.nom;
-        this.spriteMonstre.src = monstre.sprite;
-        this.spriteMonstre.alt = monstre.nom;
-
+        this.afficherMonstre();
         this.journal.ajouter("❗ " + monstre.nom + " sauvage apparaît !");
         this.afficherVie();
+    }
+
+    afficherMonstre() {
+        this.nomMonstre.textContent = this.monstre.nom;
+        this.spriteMonstre.src = this.monstre.sprite;
+        this.spriteMonstre.alt = this.monstre.nom;
+        this.spriteMonstre.hidden = this.monstre.sprite === ""; // le gobelin n'a pas d'image
     }
 
     afficherVie() {
@@ -353,8 +366,12 @@ async function demarrerJeu() {
 
     // Rencontre : on charge un monstre, puis on passe de la carte au combat
     exploration.surRencontre = async () => {
-        exploration.actif = false;
+        exploration.actif = false;                // plus de déplacement
+        ecranCarte.classList.add("rencontre");    // la carte clignote
         const monstre = await chargerMonstreAleatoire();
+        await attendre(800);                      // le temps de voir le clignotement
+        ecranCarte.classList.remove("rencontre");
+
         combat.demarrer(monstre);
         ecranCarte.hidden = true;
         ecranCombat.hidden = false;

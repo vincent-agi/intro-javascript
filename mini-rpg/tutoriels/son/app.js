@@ -5,6 +5,11 @@ function nombreAuHasard(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Met le programme en pause pendant "ms" millisecondes (à utiliser avec await)
+function attendre(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // Charge une adresse et renvoie son contenu JSON
 async function chargerJson(url) {
     const reponse = await fetch(url);
@@ -405,12 +410,16 @@ class Combat {
         this.boutonSoin.disabled = false;
         this.boutonRetour.hidden = true;
 
-        this.nomMonstre.textContent = monstre.nom;
-        this.spriteMonstre.src = monstre.sprite;
-        this.spriteMonstre.alt = monstre.nom;
-
+        this.afficherMonstre();
         this.journal.ajouter("❗ " + monstre.nom + " sauvage apparaît !");
         this.afficherVie();
+    }
+
+    afficherMonstre() {
+        this.nomMonstre.textContent = this.monstre.nom;
+        this.spriteMonstre.src = this.monstre.sprite;
+        this.spriteMonstre.alt = this.monstre.nom;
+        this.spriteMonstre.hidden = this.monstre.sprite === ""; // le gobelin n'a pas d'image
     }
 
     afficherVie() {
@@ -517,8 +526,12 @@ async function demarrerJeu() {
 
     // Rencontre : on charge un monstre, puis on passe de la carte au combat
     exploration.surRencontre = async () => {
-        exploration.actif = false;
+        exploration.actif = false;                // plus de déplacement
+        ecranCarte.classList.add("rencontre");    // la carte clignote
         const monstre = await chargerMonstreAleatoire();
+        await attendre(800);                      // le temps de voir le clignotement
+        ecranCarte.classList.remove("rencontre");
+
         combat.demarrer(monstre);
         sons.jouerMusique("musiqueCombat");
         ecranCarte.hidden = true;

@@ -1,5 +1,7 @@
 # 03 – Monstre aléatoire et gestion d'erreurs
 
+🎯 **À la fin de cette étape** : un bouton « Nouveau combat » fait apparaître un Pokémon au hasard. Et si Internet est coupé, un Gobelin le remplace : le jeu ne plante jamais.
+
 ## Le concept
 
 Une URL peut être **construite** : `".../pokemon/" + id`. Avec un `id` tiré au hasard, chaque combat a un nouvel adversaire.
@@ -94,11 +96,24 @@ class Combat {
         this.boutonNouveau.disabled = false;
     }
 
-    // afficherMonstre, afficherVie, riposte, verifierFin, attaquer, soigner : inchangées
+    // afficherVie, riposte, verifierFin, attaquer, soigner : inchangées
 }
 ```
 
-**5.** Remplace le démarrage :
+**5.** Le Gobelin n'a pas d'image (`sprite` vaut `""`). Dans `afficherMonstre`, ajoute une ligne pour **cacher** l'image dans ce cas :
+
+```javascript
+afficherMonstre() {
+    this.nomMonstre.textContent = this.monstre.nom;
+    this.spriteMonstre.src = this.monstre.sprite;
+    this.spriteMonstre.alt = this.monstre.nom;
+    this.spriteMonstre.hidden = this.monstre.sprite === ""; // le gobelin n'a pas d'image
+}
+```
+
+`this.monstre.sprite === ""` vaut `true` ou `false` : on range directement ce résultat dans `hidden`.
+
+**6.** Remplace le démarrage :
 
 ```javascript
 const combat = new Combat(new Heros("Héros"), journal);
@@ -110,7 +125,9 @@ combat.nouveauCombat();
 ## Vérifier
 
 1. Recharge la page : un Pokémon au hasard apparaît. Clique **Nouveau combat** plusieurs fois.
-2. **Teste le plan B** : coupe ta connexion (ou modifie temporairement l'URL en `".../pokemon-cassé/"`). Un **Gobelin** apparaît, et l'erreur est visible dans la console (`F12`). Remets l'URL correcte.
+2. **Teste le plan B** : coupe ta connexion (ou modifie temporairement l'URL en `".../pokemon-cassé/"`). Un **Gobelin** apparaît (sans image), et l'erreur est visible dans la console (`F12`). Remets l'URL correcte.
+
+> 🆘 Bloqué ? Compare avec le [code complet de l'étape 03](./etapes/etape-03/app.js) et son [index.html](./etapes/etape-03/index.html).
 
 ### Ce qu'il faut retenir
 
