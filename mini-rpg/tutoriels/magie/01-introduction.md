@@ -38,7 +38,7 @@ mon-rpg-magie/
 
 Lance ton serveur local, comme d'habitude.
 
-À l'étape 06, tu ajouteras **un seul** nouveau son, `magie.wav`, à choisir dans le même pack qu'avant : [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style), par Juhani Junkala (CC0), dossier *General Sounds*, un son *positive*, *power up* ou un « bling » magique.
+À l'étape 06, tu ajouteras **un seul** nouveau son, `magie.wav`, à choisir dans le même pack qu'avant : [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style), par SubspaceAudio, alias Juhani Junkala (CC0), sous-dossier `General Sounds/Positive Sounds` : par exemple `sfx_sounds_powerup5.wav`, différent de celui du soin.
 
 > 🆘 **Bloqué à une étape ?** Le dossier [`etapes/`](./etapes/) contient le code complet des étapes 02 à 05. Le jeu final (étape 06) est dans ce dossier-ci. Copie ton dossier `sons/` à côté du code que tu veux essayer.
 

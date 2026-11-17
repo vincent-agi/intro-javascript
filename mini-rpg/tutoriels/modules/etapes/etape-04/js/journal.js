@@ -9,6 +9,12 @@ export class Journal {
         this.evenements = [];
     }
 
+    // Efface tous les événements (au début d'un nouveau combat)
+    vider() {
+        this.evenements = [];
+        this.afficher();
+    }
+
     ajouter(texte) {
         this.message.textContent = texte;
         this.evenements.push(texte);

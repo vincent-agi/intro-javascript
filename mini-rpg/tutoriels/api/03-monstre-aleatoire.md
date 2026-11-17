@@ -44,6 +44,16 @@ restaurer() {
 }
 ```
 
+Un nouveau combat mérite aussi un **journal propre** (sinon, on lit encore les coups du combat d'avant). Ajoute à `Journal`, juste avant `ajouter` :
+
+```javascript
+// Efface tous les événements (au début d'un nouveau combat)
+vider() {
+    this.evenements = [];
+    this.afficher();
+}
+```
+
 **3.** Dans `index.html`, ajoute un bouton dans `.actions` :
 
 ```html
@@ -73,6 +83,7 @@ class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;
@@ -124,7 +135,7 @@ combat.nouveauCombat();
 
 ## Vérifier
 
-1. Recharge la page : un Pokémon au hasard apparaît. Clique **Nouveau combat** plusieurs fois.
+1. Recharge la page : un Pokémon au hasard apparaît. Clique **Nouveau combat** plusieurs fois : à chaque fois, le journal repart de zéro.
 2. **Teste le plan B** : coupe ta connexion (ou modifie temporairement l'URL en `".../pokemon-cassé/"`). Un **Gobelin** apparaît (sans image), et l'erreur est visible dans la console (`F12`). Remets l'URL correcte.
 
 > 🆘 Bloqué ? Compare avec le [code complet de l'étape 03](./etapes/etape-03/app.js) et son [index.html](./etapes/etape-03/index.html).
@@ -135,6 +146,7 @@ combat.nouveauCombat();
 - `try` / `catch` : le jeu continue même si le réseau échoue.
 - Pendant un chargement, **désactive** les boutons pour éviter les actions en double.
 - `Combat` est devenu **réutilisable** : il accepte un nouveau monstre à chaque `demarrer`.
+- Recommencer, c'est aussi **remettre à zéro** : les PV (`restaurer`) et le journal (`vider`).
 
 ## 🏆 Défi
 

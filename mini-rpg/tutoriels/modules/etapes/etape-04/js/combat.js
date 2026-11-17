@@ -61,6 +61,7 @@ export class Combat {
     demarrer(monstre) {
         this.monstre = monstre;
         this.enCours = true;
+        this.journal.vider();     // un nouveau combat, un journal propre
 
         this.boutonAttaque.disabled = false;
         this.boutonSoin.disabled = false;
