@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atelier Mini RPG – Code à trous</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🛠️ Atelier Mini RPG</h1>
+        <label>
+            Exercice :
+            <select id="choix-exercice"></select>
+        </label>
+        <p id="fichier-a-ouvrir"></p>
+    </header>
+
+    <!-- La scène : utilisée seulement par les exercices sur la page (DOM) -->
+    <section id="scene" hidden>
+        <h2>🧙 Héros : <span id="pv-joueur">100</span> PV</h2>
+        <p id="message">Le héros attend tes ordres...</p>
+        <button id="btn-potion">🧪 Boire une potion</button>
+        <h3>🎒 Inventaire</h3>
+        <ul id="inventaire"></ul>
+        <h3>📜 Journal</h3>
+        <ul id="journal"></ul>
+    </section>
+
+    <!-- Ce que ton code affiche, les vérifications et les erreurs -->
+    <section>
+        <h2>📋 Résultats</h2>
+        <p id="bilan"></p>
+        <ol id="sortie"></ol>
+    </section>
+
+    <script src="atelier.js"></script>
+</body>
+</html>
